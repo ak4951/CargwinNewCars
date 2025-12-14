@@ -248,6 +248,21 @@ const CarDetail = () => {
         <meta property="og:url" content={seoData.url} />
         <meta property="og:site_name" content="Hunter.Lease" />
         
+      {/* Live Update Notification */}
+      {liveUpdateNotification && (
+        <div className="fixed top-20 right-4 z-50 bg-green-600 text-white px-6 py-3 rounded-lg shadow-xl animate-slide-down flex items-center gap-2">
+          <Wifi className="w-5 h-5" />
+          <span className="font-semibold">{liveUpdateNotification}</span>
+        </div>
+      )}
+
+      {/* Live Connection Indicator */}
+      {isConnected && (
+        <div className="fixed bottom-4 right-4 z-40 bg-gray-900/80 backdrop-blur-sm text-white px-3 py-2 rounded-full text-xs flex items-center gap-2">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          Live
+        </div>
+      )}
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={seoData.title} />
