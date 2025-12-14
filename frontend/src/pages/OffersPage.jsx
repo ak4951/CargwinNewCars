@@ -294,13 +294,25 @@ const OffersPage = () => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {offersToRender.map(offer => (
-                  <OfferCard key={offer?.id || offer?._id || Math.random()} offer={offer} />
+                  <OfferCard 
+                    key={offer?.id || offer?._id || Math.random()} 
+                    offer={offer}
+                    onCompareToggle={handleCompareToggle}
+                    isSelected={selectedForCompare.some(o => o.id === offer.id)}
+                  />
                 ))}
               </div>
             )}
           </div>
         </div>
       </div>
+
+      {/* Compare Bar */}
+      <CompareBar
+        selectedOffers={selectedForCompare}
+        onRemove={handleRemoveFromCompare}
+        onClear={handleClearCompare}
+      />
 
       <Footer />
     </div>
