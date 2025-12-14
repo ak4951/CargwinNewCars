@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import FiltersSidebar from '../components/FiltersSidebar';
 import OfferCard from '../components/OfferCard';
 import LiveSearch from '../components/LiveSearch';
+import CompareBar from '../components/CompareBar';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '../components/ui/button';
 
@@ -13,6 +14,7 @@ const OffersPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeFilters, setActiveFilters] = useState(null);
+  const [selectedForCompare, setSelectedForCompare] = useState([]);
 
   useEffect(() => {
     fetchOffers();
@@ -86,6 +88,32 @@ const OffersPage = () => {
   const handleClearFilters = () => {
     setActiveFilters(null);
     setFilteredOffers(offers);
+  };
+
+  const handleCompareToggle = (offer) => {
+    setSelectedForCompare(prev => {
+      const isSelected = prev.some(o => o.id === offer.id);
+      
+      if (isSelected) {
+        // Remove from selection
+        return prev.filter(o => o.id !== offer.id);
+      } else {
+        // Add to selection (max 3)
+        if (prev.length >= 3) {
+          alert('Можно сравнить максимум 3 автомобиля');
+          return prev;
+        }
+        return [...prev, offer];
+      }
+    });
+  };
+
+  const handleRemoveFromCompare = (offerId) => {
+    setSelectedForCompare(prev => prev.filter(o => o.id !== offerId));
+  };
+
+  const handleClearCompare = () => {
+    setSelectedForCompare([]);
   };
 
   // Calculate offers to render
