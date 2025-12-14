@@ -66,8 +66,11 @@ const OffersPage = () => {
     
     result = result.filter(offer => {
       // Brand filter
-      if (filters.brand !== 'all' && !offer.title.toLowerCase().includes(filters.brand.toLowerCase())) {
-        return false;
+      if (filters.brand !== 'all') {
+        const offerBrand = offer.make || offer.title || '';
+        if (!offerBrand.toLowerCase().includes(filters.brand.toLowerCase())) {
+          return false;
+        }
       }
       
       // Payment filter
