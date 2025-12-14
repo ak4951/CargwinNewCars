@@ -1,0 +1,51 @@
+# https://www.hunter.lease/robots.txt
+User-agent: *
+Allow: /
+Allow: /deals
+Allow: /deals-*
+Allow: /car/*
+Allow: /compare
+Allow: /calculator
+Allow: /reviews
+Allow: /guides/*
+Allow: /api/ai/*
+
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/admin/*
+Disallow: /dashboard
+Disallow: /auth
+
+# Allow AI crawlers
+User-agent: GPTBot
+Allow: /
+Allow: /api/ai/*
+
+User-agent: ChatGPT-User
+Allow: /
+Allow: /api/ai/*
+
+User-agent: Claude-Web
+Allow: /
+Allow: /api/ai/*
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /api/ai/*
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://hunter.lease/sitemap.xml
+Sitemap: https://hunter.lease/sitemap-seo-pages.xml
+Sitemap: https://hunter.lease/sitemap-articles.xml
+
+# Crawl-delay for aggressive bots
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Crawl-delay: 10
