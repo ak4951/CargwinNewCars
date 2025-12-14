@@ -122,45 +122,20 @@ const Home = () => {
       
       <Header />
       <main role="main">
-        {/* 1. Hero - First impression */}
         <Hero />
-        
-        {/* 2. Interactive Calculator - User sees THEIR savings */}
-        <InteractiveSavingsCalculator />
-        
-        {/* 3. Founder Story - Philosophy & Pain Points */}
-        <FounderStory />
-        
-        {/* 4. Visual Price Comparison - Hard numbers */}
-        <VisualPriceComparison />
-        
-        {/* 5. Featured Deals - Show what's available */}
         <FeaturedDealsSection />
-        
-        {/* 6. Quiz - Personalization & engagement */}
-        <CarMatchQuiz />
-        
-        {/* 7. How It Works - Process clarity */}
         <HowItWorks />
-        
-        {/* 8. Trust signals */}
+        <WhyHunterLease />
         <TrustFAQ />
-        
-        {/* 9. Social proof - Video reviews */}
         <Reviews />
-        
-        {/* 10. FAQ - Remove objections */}
         <FAQ />
-        
-        {/* 11. Final CTA */}
         <FinalCTA />
       </main>
       <Footer />
-      
-      {/* Conversion Boosters */}
-      <StickyCTABar />
-      <ExitIntentModal />
       <CargwinGPT />
+      
+      {/* Add bottom padding */}
+      <div className="h-16" />
       
       {/* Add bottom padding */}
       <div className="h-16" />

@@ -40,8 +40,8 @@ const FounderStory = () => {
           <div className="order-1 lg:order-2">
             <div className="bg-red-50 border-l-4 border-red-600 p-6 rounded-lg mb-6">
               <p className="text-lg italic text-gray-800 leading-relaxed">
-                "When I moved to the US, I was shocked. Dealers manipulated customers, added hidden fees, inflated rates... 
-                I knew there had to be a better way."
+                &quot;When I moved to the US, I was shocked. Dealers manipulated customers, added hidden fees, inflated rates... 
+                I knew there had to be a better way.&quot;
               </p>
               <p className="text-sm text-gray-600 mt-4">
                 — Azat Reed, Founder
@@ -52,12 +52,12 @@ const FounderStory = () => {
               <p className="text-lg leading-relaxed">
                 As an immigrant, my first car buying experience in America was a nightmare. 
                 The dealer added <strong>$4,500 in "fees"</strong> I never agreed to, 
-                raised my interest rate because I didn't notice, and pressured me into warranties I didn't need.
+                raised my interest rate because I did not notice, and pressured me into warranties I did not need.
               </p>
               
               <p className="text-lg leading-relaxed">
                 I realized: <strong className="text-red-600">millions of Americans overpay $3,000-7,000 on every car</strong> — 
-                not because they're bad negotiators, but because the system is rigged against them.
+                not because they&apos;re bad negotiators, but because the system is rigged against them.
               </p>
 
               <p className="text-lg leading-relaxed font-semibold text-gray-900">
@@ -155,7 +155,7 @@ const FounderStory = () => {
           
           <div className="space-y-4 text-lg">
             <p className="leading-relaxed">
-              <strong className="text-yellow-400">Great question.</strong> We don't work with retail dealers. 
+              <strong className="text-yellow-400">Great question.</strong> We do not work with retail dealers. 
               We work directly with <strong>wholesale/fleet departments</strong> at Toyota, Lexus, Honda, Kia, BMW — 
               the same teams that supply:
             </p>
@@ -180,7 +180,7 @@ const FounderStory = () => {
             </div>
 
             <p className="leading-relaxed">
-              These departments <strong>love volume</strong>. They don't care about squeezing every dollar out of you. 
+              These departments <strong>love volume</strong>. They do not care about squeezing every dollar out of you. 
               They care about moving inventory fast. That's why they give us the same rates they give Hertz and Enterprise.
             </p>
 
