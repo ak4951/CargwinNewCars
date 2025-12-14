@@ -196,17 +196,6 @@ const OffersPage = () => {
 
           {/* Right - All Offers */}
           <div className="lg:col-span-3">
-            <div className="mb-6 flex justify-between items-center">
-              <p className="text-sm text-gray-600">
-                {filteredOffers.length} {filteredOffers.length === 1 ? 'offer' : 'offers'} available
-              </p>
-              {activeFilters && (
-                <Button variant="outline" size="sm" onClick={handleClearFilters}>
-                  Clear Filters
-                </Button>
-              )}
-            </div>
-
             {error ? (
               <div className="text-center py-20">
                 <div className="text-red-600 mb-4">Error loading offers: {error}</div>
@@ -218,13 +207,20 @@ const OffersPage = () => {
               <div className="text-center py-20">
                 <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
               </div>
-            ) : filteredOffers.length === 0 ? (
+            ) : offersToRender.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-gray-500">No offers match your filters</p>
+                <p className="text-xl text-gray-700 mb-4">No offers match your filters</p>
+                <p className="text-gray-500 mb-4">Try adjusting your filters or clearing them</p>
+                <button
+                  onClick={handleClearFilters}
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                >
+                  Clear All Filters
+                </button>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {filteredOffers.map(offer => (
+                {offersToRender.map(offer => (
                   <OfferCard key={offer?.id || offer?._id || Math.random()} offer={offer} />
                 ))}
               </div>
