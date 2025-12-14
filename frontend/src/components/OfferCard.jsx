@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Heart, Plus, Check } from 'lucide-react';
 
-const OfferCard = ({ offer, onCompareToggle, isSelected }) => {
+const OfferCard = ({ offer, onCompareToggle, isSelected, matchScore, badges }) => {
   const [isSaved, setIsSaved] = React.useState(false);
   const [timeLeft, setTimeLeft] = React.useState({ hours: 14, minutes: 32, seconds: 18 });
 
@@ -94,6 +94,33 @@ const OfferCard = ({ offer, onCompareToggle, isSelected }) => {
         </div>
       )}
 
+      {/* Match Score Badge */}
+      {matchScore !== undefined && matchScore < 100 && (
+        <div className="absolute top-2 right-2 z-10">
+          <div className={`px-2 py-1 rounded-full text-xs font-bold ${
+            matchScore >= 80 ? 'bg-green-500 text-white' :
+            matchScore >= 50 ? 'bg-yellow-500 text-white' :
+            'bg-gray-500 text-white'
+          }`}>
+            {matchScore}% Match
+          </div>
+        </div>
+      )}
+
+      {/* Top Badges (Best Deal, Hot, New) */}
+      {badges && badges.length > 0 && (
+        <div className="absolute top-12 right-2 z-10 flex flex-col gap-1">
+          {badges.map((badge, idx) => (
+            <div
+              key={idx}
+              className={`${badge.color} text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg`}
+            >
+              {badge.text}
+            </div>
+          ))}
+        </div>
+      )}
+
       <Link to={`/car/${offerId}`}>
         <div className="cursor-pointer transform hover:scale-105 transition-transform duration-300">
           {/* Image */}
@@ -107,7 +134,7 @@ const OfferCard = ({ offer, onCompareToggle, isSelected }) => {
             
             {/* Stock Badge */}
             {stockLeft <= 3 && (
-              <div className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">
+              <div className="absolute bottom-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">
                 🔥 Only {stockLeft} left
               </div>
             )}
