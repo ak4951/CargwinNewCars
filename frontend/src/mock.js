@@ -149,40 +149,151 @@ export const mockInstagramReviews = [
   }
 ];
 
-// Video reviews for embedded player
+// Video reviews for embedded player - Real Instagram Reels
 export const mockVideoReviews = [
   {
-    id: "video1",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    id: "reel1",
+    instagramUrl: "https://www.instagram.com/reel/DR6hz9Akfqt/",
+    embedUrl: "https://www.instagram.com/reel/DR6hz9Akfqt/embed",
     thumbnail: "https://images.pexels.com/photos/3752169/pexels-photo-3752169.jpeg?auto=compress&cs=tinysrgb&w=800",
-    title: "Сэкономил $6,200 на новой BMW 3 Series — без обмана и допов!",
-    author: "Дмитрий К.",
-    location: "Лос-Анджелес, CA",
-    savings: 6200,
+    title: "Реальный отзыв клиента о покупке авто",
     likes: 847,
     comments: 124
   },
   {
-    id: "video2",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    id: "reel2",
+    instagramUrl: "https://www.instagram.com/reel/DSDvdCQkhND/",
+    embedUrl: "https://www.instagram.com/reel/DSDvdCQkhND/embed",
     thumbnail: "https://images.pexels.com/photos/1319839/pexels-photo-1319839.jpeg?auto=compress&cs=tinysrgb&w=800",
-    title: "Честный отзыв: как получила Toyota Camry на $4,500 дешевле дилера",
-    author: "Анна С.",
-    location: "Сан-Франциско, CA",
-    savings: 4500,
+    title: "Процесс оформления лизинга",
     likes: 1243,
     comments: 89
   },
   {
-    id: "video3",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+    id: "reel3",
+    instagramUrl: "https://www.instagram.com/reel/DRv85Mrkdqt/",
+    embedUrl: "https://www.instagram.com/reel/DRv85Mrkdqt/embed",
     thumbnail: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800",
-    title: "Процесс покупки Tesla Model 3 — быстро, прозрачно, без головной боли",
-    author: "Максим В.",
-    location: "Сан-Диего, CA",
-    savings: 5800,
+    title: "Сравнение с дилерскими ценами",
     likes: 965,
     comments: 156
+  },
+  {
+    id: "reel4",
+    instagramUrl: "https://www.instagram.com/reel/DRYqdB9kYzw/",
+    embedUrl: "https://www.instagram.com/reel/DRYqdB9kYzw/embed",
+    thumbnail: "https://images.pexels.com/photos/3752169/pexels-photo-3752169.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Отзыв о сервисе Hunter.Lease",
+    likes: 723,
+    comments: 91
+  },
+  {
+    id: "reel5",
+    instagramUrl: "https://www.instagram.com/reel/DPzbaCbkipc/",
+    embedUrl: "https://www.instagram.com/reel/DPzbaCbkipc/embed",
+    thumbnail: "https://images.pexels.com/photos/1319839/pexels-photo-1319839.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Получение нового авто",
+    likes: 892,
+    comments: 67
+  },
+  {
+    id: "reel6",
+    instagramUrl: "https://www.instagram.com/reel/DRYUkKYAVjC/",
+    embedUrl: "https://www.instagram.com/reel/DRYUkKYAVjC/embed",
+    thumbnail: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Экономия на новом авто",
+    likes: 1134,
+    comments: 143
+  },
+  {
+    id: "reel7",
+    instagramUrl: "https://www.instagram.com/reel/DRTdtZ7EQev/",
+    embedUrl: "https://www.instagram.com/reel/DRTdtZ7EQev/embed",
+    thumbnail: "https://images.pexels.com/photos/3752169/pexels-photo-3752169.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Первые впечатления от покупки",
+    likes: 654,
+    comments: 78
+  },
+  {
+    id: "reel8",
+    instagramUrl: "https://www.instagram.com/reel/DQ0hgPVACJU/",
+    embedUrl: "https://www.instagram.com/reel/DQ0hgPVACJU/embed",
+    thumbnail: "https://images.pexels.com/photos/1319839/pexels-photo-1319839.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Быстрое оформление лизинга",
+    likes: 876,
+    comments: 102
+  },
+  {
+    id: "reel9",
+    instagramUrl: "https://www.instagram.com/reel/DQyQWz5juNr/",
+    embedUrl: "https://www.instagram.com/reel/DQyQWz5juNr/embed",
+    thumbnail: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Честные условия сделки",
+    likes: 1021,
+    comments: 134
+  },
+  {
+    id: "reel10",
+    instagramUrl: "https://www.instagram.com/reel/DQyQB-ojqzX/",
+    embedUrl: "https://www.instagram.com/reel/DQyQB-ojqzX/embed",
+    thumbnail: "https://images.pexels.com/photos/3752169/pexels-photo-3752169.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Без скрытых платежей",
+    likes: 789,
+    comments: 95
+  },
+  {
+    id: "reel11",
+    instagramUrl: "https://www.instagram.com/reel/DQuRlE1lG9R/",
+    embedUrl: "https://www.instagram.com/reel/DQuRlE1lG9R/embed",
+    thumbnail: "https://images.pexels.com/photos/1319839/pexels-photo-1319839.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Прозрачные расчёты",
+    likes: 943,
+    comments: 118
+  },
+  {
+    id: "reel12",
+    instagramUrl: "https://www.instagram.com/reel/DQpq1shkkMq/",
+    embedUrl: "https://www.instagram.com/reel/DQpq1shkkMq/embed",
+    thumbnail: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Реальная экономия на авто",
+    likes: 1167,
+    comments: 156
+  },
+  {
+    id: "reel13",
+    instagramUrl: "https://www.instagram.com/reel/DP7i5GyD0Vi/",
+    embedUrl: "https://www.instagram.com/reel/DP7i5GyD0Vi/embed",
+    thumbnail: "https://images.pexels.com/photos/3752169/pexels-photo-3752169.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Легкое оформление онлайн",
+    likes: 834,
+    comments: 87
+  },
+  {
+    id: "reel14",
+    instagramUrl: "https://www.instagram.com/reel/DP7hApEgYqH/",
+    embedUrl: "https://www.instagram.com/reel/DP7hApEgYqH/embed",
+    thumbnail: "https://images.pexels.com/photos/1319839/pexels-photo-1319839.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Выгодные условия лизинга",
+    likes: 912,
+    comments: 104
+  },
+  {
+    id: "reel15",
+    instagramUrl: "https://www.instagram.com/reel/DP4UecBgZ-N/",
+    embedUrl: "https://www.instagram.com/reel/DP4UecBgZ-N/embed",
+    thumbnail: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Довольный клиент",
+    likes: 1089,
+    comments: 127
+  },
+  {
+    id: "reel16",
+    instagramUrl: "https://www.instagram.com/reel/DPz5SUsj8_G/",
+    embedUrl: "https://www.instagram.com/reel/DPz5SUsj8_G/embed",
+    thumbnail: "https://images.pexels.com/photos/3752169/pexels-photo-3752169.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Простое оформление",
+    likes: 756,
+    comments: 92
   }
 ];
 

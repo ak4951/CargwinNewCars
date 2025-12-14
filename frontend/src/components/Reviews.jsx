@@ -6,7 +6,7 @@ import { Star, DollarSign, Instagram, ExternalLink } from 'lucide-react';
 import { mockReviews, mockInstagramReviews, mockVideoReviews } from '../mock';
 import { formatPrice } from '../utils/timer';
 import { useI18n } from '../hooks/useI18n';
-import VerticalVideoPlayer from './VerticalVideoPlayer';
+import InstagramReelsPlayer from './InstagramReelsPlayer';
 
 const Reviews = () => {
   const { t } = useI18n();
@@ -73,26 +73,29 @@ const Reviews = () => {
           ))}
         </div>
 
-        {/* Video Reviews - Embedded Player */}
+        {/* Video Reviews - Instagram Reels */}
         <div className="mb-16">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
               {t('reviews.instagram_title')}
             </h3>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Смотрите реальные истории наших клиентов прямо здесь
+            <p className="text-gray-600 text-base max-w-2xl mx-auto mb-2">
+              Смотрите реальные истории наших клиентов
+            </p>
+            <p className="text-sm text-gray-500">
+              📱 16 видео-отзывов — листайте как в Instagram
             </p>
           </div>
 
-          {/* Vertical Video Player */}
+          {/* Instagram Reels Player */}
           <div className="flex justify-center">
-            <VerticalVideoPlayer videos={mockVideoReviews} autoPlayOnView={true} />
+            <InstagramReelsPlayer reels={mockVideoReviews} />
           </div>
 
           {/* Instagram Link Below */}
           <div className="text-center mt-8">
-            <p className="text-gray-600 mb-4">
-              Больше отзывов в нашем Instagram
+            <p className="text-gray-600 mb-4 text-sm">
+              Подписывайтесь на наш Instagram, чтобы не пропустить новые отзывы
             </p>
             <Button
               asChild
@@ -106,7 +109,7 @@ const Reviews = () => {
                 className="inline-flex items-center gap-2"
               >
                 <Instagram className="w-5 h-5" />
-                Подписаться на @hunter.lease
+                @hunter.lease
                 <ExternalLink className="w-4 h-4" />
               </a>
             </Button>
