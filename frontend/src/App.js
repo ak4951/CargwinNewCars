@@ -56,6 +56,7 @@ import LeasePrograms from "./pages/admin/LeasePrograms";
 import FinancePrograms from "./pages/admin/FinancePrograms";
 import TaxConfigs from "./pages/admin/TaxConfigs";
 import CalculatorTools from "./pages/admin/CalculatorTools";
+import SEOPage from "./pages/SEOPage";
 import { AuthProvider } from "./hooks/useAuth";
 import { I18nProvider } from "./hooks/useI18n";
 import { FOMOSettingsProvider } from './hooks/useFOMOSettings';
@@ -126,6 +127,9 @@ function App() {
                   <Route path="/admin/tax-configs" element={<TaxConfigs />} />
                   <Route path="/admin/calculator-tools" element={<CalculatorTools />} />
                   <Route path="/admin/*" element={<AdminDashboard />} />
+                  
+                  {/* SEO Pages - Dynamic route for 1000+ pages */}
+                  <Route path="/deals-:slug" element={<SEOPage />} />
                 </Routes>
               </AuthProvider>
             </FOMOSettingsProvider>
