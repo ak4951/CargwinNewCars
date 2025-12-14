@@ -12,7 +12,7 @@ from datetime import datetime
 from typing import Dict, List, Tuple
 
 # Configuration
-BASE_URL = "https://smart-lease-hub-2.preview.emergentagent.com/api"
+BASE_URL = "https://dealfinder-246.preview.emergentagent.com/api"
 
 # Test credentials
 ADMIN_CREDENTIALS = {
