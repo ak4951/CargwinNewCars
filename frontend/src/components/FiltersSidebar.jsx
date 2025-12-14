@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Slider } from './ui/slider';
 import { X, SlidersHorizontal } from 'lucide-react';
 
-const FiltersSidebar = ({ onFilterChange, onClear }) => {
+const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [] }) => {
   const [filters, setFilters] = useState({
     dealType: 'all',
     brand: 'all',
@@ -21,6 +21,56 @@ const FiltersSidebar = ({ onFilterChange, onClear }) => {
   });
   
   const [detectedLocation, setDetectedLocation] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
+
+  // Count offers per filter option
+  const countOffersForOption = (filterKey, filterValue) => {
+    return allOffers.filter(offer => {
+      if (filterKey === 'brand') {
+        return offer.make?.toLowerCase() === filterValue.toLowerCase();
+      }
+      if (filterKey === 'budgetMax') {
+        const payment = offer.monthlyPayment || offer.lease?.monthly || 0;
+        return payment <= filterValue;
+      }
+      if (filterKey === 'dealType') {
+        if (filterValue === 'lease') return offer.lease;
+        if (filterValue === 'finance') return offer.finance;
+        return true;
+      }
+      return true;
+    }).length;
+  };
+
+  // Generate smart suggestions when 0 results
+  const generateSuggestions = (currentFilters, resultCount) => {
+    if (resultCount > 0) {
+      setSuggestions([]);
+      return;
+    }
+
+    const tips = [];
+
+    // Budget too low
+    if (currentFilters.budgetMax < 500) {
+      const countAt400 = countOffersForOption('budgetMax', 400);
+      const countAt500 = countOffersForOption('budgetMax', 500);
+      if (countAt400 > 0) tips.push(`💡 Increase budget to $400 (+${countAt400} offers)`);
+      else if (countAt500 > 0) tips.push(`💡 Increase budget to $500 (+${countAt500} offers)`);
+    }
+
+    // Brand filter too restrictive
+    if (currentFilters.brand !== 'all') {
+      tips.push(`💡 Try "All Brands" to see more options`);
+    }
+
+    // Credit score filter
+    if (currentFilters.creditScore !== 'all') {
+      tips.push(`💡 Remove Credit Score filter`);
+    }
+
+    setSuggestions(tips);
+  };
 
   useEffect(() => {
     // Auto-detect location
