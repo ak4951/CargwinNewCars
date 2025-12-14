@@ -39,38 +39,38 @@ def build_search_index(deals: List[Dict[str, Any]]):
     Build search index from deals
     
     Args:
-        deals: List of Featured Deals
+        deals: List of car offers (from cars collection)
     """
     global _search_index, _index_built
     
     _search_index = []
     
     for deal in deals:
-        # Extract searchable fields
+        # Extract searchable fields (adapted for cars collection schema)
         searchable_text = ' '.join([
-            str(deal.get('brand', '')),
+            str(deal.get('make', '')),  # 'brand' is 'make' in cars collection
             str(deal.get('model', '')),
             str(deal.get('trim', '')),
             str(deal.get('year', '')),
-            str(deal.get('bank', '')),
-            str(deal.get('region', ''))
+            str(deal.get('body_type', '')),
+            str(deal.get('exterior_color', ''))
         ])
         
         # Tokenize
         tokens = tokenize(searchable_text)
         
-        # Add to index
+        # Add to index (using cars collection field names)
         _search_index.append({
             'deal_id': deal.get('id'),
             'tokens': set(tokens),
-            'brand': deal.get('brand', ''),
+            'make': deal.get('make', ''),  # Changed from 'brand'
             'model': deal.get('model', ''),
             'year': deal.get('year', ''),
-            'payment': deal.get('calculated_payment', 0),
-            'driveoff': deal.get('calculated_driveoff', 0),
-            'image_url': deal.get('image_url', ''),
-            'bank': deal.get('bank', ''),
-            'trim': deal.get('trim', '')
+            'payment': deal.get('lease', {}).get('monthly_payment', 0),
+            'msrp': deal.get('msrp', 0),
+            'image_url': deal.get('images', [None])[0] if deal.get('images') else '',
+            'trim': deal.get('trim', ''),
+            'body_type': deal.get('body_type', '')
         })
     
     _index_built = True
@@ -84,7 +84,8 @@ async def index_deals(db):
     Args:
         db: Database instance
     """
-    deals = await db.featured_deals.find({}, {"_id": 0}).to_list(length=None)
+    # Use cars collection (unified data model)
+    deals = await db.cars.find({"published": True}, {"_id": 0}).to_list(length=None)
     build_search_index(deals)
 
 
