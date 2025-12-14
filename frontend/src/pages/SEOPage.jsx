@@ -9,6 +9,7 @@ import { MapPin, Tag, DollarSign, ArrowRight } from 'lucide-react';
 
 const SEOPage = () => {
   const { slug } = useParams();
+  const actualSlug = slug || window.location.pathname.replace('/', '');
   const [pageData, setPageData] = useState(null);
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -91,7 +92,7 @@ const SEOPage = () => {
         <Header />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Page Not Found</h1>
-          <p className="text-gray-600 mb-8">The page you're looking for doesn't exist.</p>
+          <p className="text-gray-600 mb-8">The page you are looking for does not exist.</p>
           <Button asChild className="bg-red-600 hover:bg-red-700 text-white">
             <Link to="/deals">Browse All Deals</Link>
           </Button>

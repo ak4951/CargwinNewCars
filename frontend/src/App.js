@@ -128,8 +128,8 @@ function App() {
                   <Route path="/admin/calculator-tools" element={<CalculatorTools />} />
                   <Route path="/admin/*" element={<AdminDashboard />} />
                   
-                  {/* SEO Pages - Dynamic route for 1000+ pages */}
-                  <Route path="/deals-:slug" element={<SEOPage />} />
+                  {/* SEO Pages - Must be last to catch all /deals-* routes */}
+                  <Route path="/deals-*" element={<SEOPage />} />
                 </Routes>
               </AuthProvider>
             </FOMOSettingsProvider>
