@@ -209,13 +209,31 @@ const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [], filteredCount
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Brands</SelectItem>
-              <SelectItem value="lexus">Lexus</SelectItem>
-              <SelectItem value="genesis">Genesis</SelectItem>
-              <SelectItem value="toyota">Toyota</SelectItem>
-              <SelectItem value="honda">Honda</SelectItem>
-              <SelectItem value="bmw">BMW</SelectItem>
-              <SelectItem value="mercedes">Mercedes-Benz</SelectItem>
+              <SelectItem value="all">All Brands ({allOffers.length})</SelectItem>
+              <SelectItem value="lexus">
+                Lexus ({countOffersForOption('brand', 'lexus')})
+              </SelectItem>
+              <SelectItem value="genesis">
+                Genesis ({countOffersForOption('brand', 'genesis')})
+              </SelectItem>
+              <SelectItem value="toyota">
+                Toyota ({countOffersForOption('brand', 'toyota')})
+              </SelectItem>
+              <SelectItem value="honda">
+                Honda ({countOffersForOption('brand', 'honda')})
+              </SelectItem>
+              <SelectItem value="bmw">
+                BMW ({countOffersForOption('brand', 'bmw')})
+              </SelectItem>
+              <SelectItem value="mercedes">
+                Mercedes-Benz ({countOffersForOption('brand', 'mercedes')})
+              </SelectItem>
+              <SelectItem value="kia">
+                Kia ({countOffersForOption('brand', 'kia')})
+              </SelectItem>
+              <SelectItem value="hyundai">
+                Hyundai ({countOffersForOption('brand', 'hyundai')})
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
