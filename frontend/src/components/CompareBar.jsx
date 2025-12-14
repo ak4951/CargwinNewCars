@@ -14,15 +14,15 @@ const CompareBar = ({ selectedOffers, onRemove, onClear }) => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-red-600 shadow-2xl z-50 animate-slide-up">
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-red-600 shadow-2xl z-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Left: Selected offers */}
-          <div className="flex items-center gap-4 flex-1 overflow-x-auto">
+          <div className="flex items-center gap-4 flex-1 overflow-x-auto w-full">
             <div className="font-semibold text-gray-900 whitespace-nowrap">
               Сравнить ({selectedOffers.length}/3):
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 overflow-x-auto">
               {selectedOffers.map((offer) => (
                 <div
                   key={offer.id}
@@ -59,7 +59,7 @@ const CompareBar = ({ selectedOffers, onRemove, onClear }) => {
             <Button
               onClick={handleCompare}
               disabled={selectedOffers.length < 2}
-              className="bg-red-600 hover:bg-red-700 text-white whitespace-nowrap"
+              className="bg-red-600 hover:bg-red-700 text-white whitespace-nowrap disabled:opacity-50"
             >
               Сравнить {selectedOffers.length > 1 && `(${selectedOffers.length})`}
               <ArrowRight className="w-4 h-4 ml-2" />
