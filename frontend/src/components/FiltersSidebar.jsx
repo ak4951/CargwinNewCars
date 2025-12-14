@@ -210,28 +210,52 @@ const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [], filteredCount
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Brands ({allOffers.length})</SelectItem>
-              <SelectItem value="lexus">
+              <SelectItem 
+                value="lexus" 
+                disabled={countOffersForOption('brand', 'lexus') === 0}
+              >
                 Lexus ({countOffersForOption('brand', 'lexus')})
               </SelectItem>
-              <SelectItem value="genesis">
+              <SelectItem 
+                value="genesis"
+                disabled={countOffersForOption('brand', 'genesis') === 0}
+              >
                 Genesis ({countOffersForOption('brand', 'genesis')})
               </SelectItem>
-              <SelectItem value="toyota">
+              <SelectItem 
+                value="toyota"
+                disabled={countOffersForOption('brand', 'toyota') === 0}
+              >
                 Toyota ({countOffersForOption('brand', 'toyota')})
               </SelectItem>
-              <SelectItem value="honda">
+              <SelectItem 
+                value="honda"
+                disabled={countOffersForOption('brand', 'honda') === 0}
+              >
                 Honda ({countOffersForOption('brand', 'honda')})
               </SelectItem>
-              <SelectItem value="bmw">
+              <SelectItem 
+                value="bmw"
+                disabled={countOffersForOption('brand', 'bmw') === 0}
+              >
                 BMW ({countOffersForOption('brand', 'bmw')})
               </SelectItem>
-              <SelectItem value="mercedes">
+              <SelectItem 
+                value="mercedes"
+                disabled={countOffersForOption('brand', 'mercedes') === 0}
+              >
                 Mercedes-Benz ({countOffersForOption('brand', 'mercedes')})
               </SelectItem>
-              <SelectItem value="kia">
+              <SelectItem 
+                value="kia"
+                disabled={countOffersForOption('brand', 'kia') === 0}
+              >
                 Kia ({countOffersForOption('brand', 'kia')})
               </SelectItem>
-              <SelectItem value="hyundai">
+              <SelectItem 
+                value="hyundai"
+                disabled={countOffersForOption('brand', 'hyundai') === 0}
+              >
                 Hyundai ({countOffersForOption('brand', 'hyundai')})
               </SelectItem>
             </SelectContent>
