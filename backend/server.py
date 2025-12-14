@@ -2510,7 +2510,6 @@ async def compare_deals_endpoint(request: dict, req: Request):
     """
     try:
         from comparison_engine import compare_deals, get_comparison_summary
-        from db_featured_deals import get_deal
         from rate_limiter import get_rate_limiter
         
         # Rate limiting
@@ -2533,10 +2532,11 @@ async def compare_deals_endpoint(request: dict, req: Request):
                 detail="Must provide 1-3 deal IDs for comparison"
             )
         
-        # Fetch deals
+        # Fetch deals from cars collection (unified data model)
         deals = []
         for deal_id in deal_ids:
-            deal = await get_deal(db, deal_id)
+            # Query cars collection
+            deal = await db.cars.find_one({"id": deal_id}, {"_id": 0})
             if deal:
                 deals.append(deal)
         
