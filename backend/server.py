@@ -2535,10 +2535,18 @@ async def compare_deals_endpoint(request: dict, req: Request):
         # Fetch deals from cars collection (unified data model)
         deals = []
         for deal_id in deal_ids:
-            # Query cars collection
-            deal = await db.cars.find_one({"id": deal_id}, {"_id": 0})
-            if deal:
-                deals.append(deal)
+            # Query cars collection - IDs are actually _id (ObjectId) converted to string
+            from bson import ObjectId
+            try:
+                # Try to convert string ID to ObjectId
+                deal = await db.cars.find_one({"_id": ObjectId(deal_id)}, {"_id": 0})
+                if deal:
+                    # Add id field for comparison engine
+                    deal['id'] = deal_id
+                    deals.append(deal)
+            except Exception as e:
+                logger.warning(f"Could not find deal {deal_id}: {e}")
+                continue
         
         if not deals:
             raise HTTPException(status_code=404, detail="No deals found")
