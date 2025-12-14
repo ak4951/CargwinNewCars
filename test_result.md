@@ -710,7 +710,8 @@ frontend:
 
 test_plan:
   current_focus:
-    - "✅ COMPLETED: Offer comparison feature fully tested and working"
+    - "✅ COMPLETED: Comprehensive filter improvements testing on /deals page"
+    - "⚠️ NEEDS FIX: Smart Disable brand counts not displaying in dropdown"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
