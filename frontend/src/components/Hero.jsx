@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { ArrowRight, Eye, TrendingUp, Clock, Package } from 'lucide-react';
+import LiveSearch from './LiveSearch';
 
 const Hero = () => {
   const [fomoStats, setFomoStats] = useState({
