@@ -13,7 +13,7 @@ const FounderStory = () => {
             Why Hunter.Lease Exists
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            One immigrant's mission to end car dealer manipulation in America
+            One immigrant&apos;s mission to end car dealer manipulation in America
           </p>
         </div>
 
@@ -51,7 +51,7 @@ const FounderStory = () => {
             <div className="space-y-4 text-gray-700">
               <p className="text-lg leading-relaxed">
                 As an immigrant, my first car buying experience in America was a nightmare. 
-                The dealer added <strong>$4,500 in "fees"</strong> I never agreed to, 
+                The dealer added <strong>$4,500 in &ldquo;fees&rdquo;</strong> I never agreed to, 
                 raised my interest rate because I did not notice, and pressured me into warranties I did not need.
               </p>
               
