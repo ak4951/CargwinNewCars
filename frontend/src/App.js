@@ -57,6 +57,7 @@ import FinancePrograms from "./pages/admin/FinancePrograms";
 import TaxConfigs from "./pages/admin/TaxConfigs";
 import CalculatorTools from "./pages/admin/CalculatorTools";
 import SEOPage from "./pages/SEOPage";
+import ArticlePage from "./pages/ArticlePage";
 import { AuthProvider } from "./hooks/useAuth";
 import { I18nProvider } from "./hooks/useI18n";
 import { FOMOSettingsProvider } from './hooks/useFOMOSettings';
@@ -173,6 +174,9 @@ function App() {
                   
                   {/* SEO Pages - Catch all deals-* routes */}
                   <Route path="/deals-*" element={<SEOPage />} />
+                  
+                  {/* Article/Guide Pages */}
+                  <Route path="/guides/:slug" element={<ArticlePage />} />
                   
                   <Route path="/admin/login" element={<AdminLogin />} />
                   <Route path="/admin/lease-programs" element={<LeasePrograms />} />
