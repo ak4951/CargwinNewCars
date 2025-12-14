@@ -38,7 +38,7 @@ const OfferCard = ({ offer }) => {
   const miles = offer.mileage || offer.lease?.milesPerYear || 0;
   const savings = offer.discount || offer.savings || 0;
   const msrp = offer.msrp || 0;
-  const stockLeft = offer.stock || Math.floor(Math.random() * 5) + 1; // Random 1-5 for demo
+  const stockLeft = React.useMemo(() => offer.stock || Math.floor(Math.random() * 5) + 1, [offer.stock]); // Random 1-5 for demo
   
   // Calculate dealer comparison (dealer usually 20-25% higher)
   const dealerPayment = Math.round(payment * 1.22);
