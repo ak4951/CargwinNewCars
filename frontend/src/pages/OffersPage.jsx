@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FiltersSidebar from '../components/FiltersSidebar';
 import OfferCard from '../components/OfferCard';
+import LiveSearch from '../components/LiveSearch';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '../components/ui/button';
 
@@ -134,7 +135,7 @@ const OffersPage = () => {
       
       <div className="max-w-7xl mx-auto px-4 py-9">
         {/* Header with Live Counter */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             All Current Dump Offers
           </h1>
@@ -144,9 +145,14 @@ const OffersPage = () => {
               (out of {offers.length} total)
             </span>
           </div>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-600 mb-6">
             Complete inventory. Real prices. Updated monthly.
           </p>
+          
+          {/* Search Bar */}
+          <div className="max-w-2xl mx-auto">
+            <LiveSearch placeholder="Быстрый поиск: марка, модель, год..." />
+          </div>
         </div>
 
         {/* Quick Filter Buttons */}
