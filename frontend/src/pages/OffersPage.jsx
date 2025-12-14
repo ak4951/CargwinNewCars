@@ -17,6 +17,7 @@ const OffersPage = () => {
   const [error, setError] = useState(null);
   const [activeFilters, setActiveFilters] = useState(null);
   const [selectedForCompare, setSelectedForCompare] = useState([]);
+  const [sortBy, setSortBy] = useState('match'); // New: sorting state
 
   useEffect(() => {
     fetchOffers();
@@ -84,7 +85,53 @@ const OffersPage = () => {
       return true;
     });
     
+    // Calculate match score for each offer
+    result = result.map(offer => ({
+      ...offer,
+      matchScore: calculateMatchScore(offer, filters)
+    }));
+    
     setFilteredOffers(result);
+  };
+
+  // NEW: Calculate match score (0-100%)
+  const calculateMatchScore = (offer, filters) => {
+    if (!filters) return 100;
+    
+    let score = 100;
+    let criteriaCount = 0;
+    let matchedCriteria = 0;
+    
+    // Brand match
+    if (filters.brand !== 'all') {
+      criteriaCount++;
+      if (offer.make?.toLowerCase() === filters.brand.toLowerCase()) {
+        matchedCriteria++;
+      }
+    }
+    
+    // Budget match
+    const payment = offer.monthlyPayment || offer.lease?.monthly || 0;
+    if (payment > 0) {
+      criteriaCount++;
+      const budgetRange = filters.budgetMax - filters.budgetMin;
+      const paymentPosition = (payment - filters.budgetMin) / budgetRange;
+      if (paymentPosition >= 0 && paymentPosition <= 1) {
+        matchedCriteria += (1 - paymentPosition); // Lower price = better match
+      }
+    }
+    
+    // Deal type match
+    if (filters.dealType !== 'all') {
+      criteriaCount++;
+      if (filters.dealType === 'lease' && offer.lease) matchedCriteria++;
+      if (filters.dealType === 'finance' && offer.finance) matchedCriteria++;
+    }
+    
+    if (criteriaCount === 0) return 100;
+    
+    score = Math.round((matchedCriteria / criteriaCount) * 100);
+    return Math.max(0, Math.min(100, score));
   };
 
   const handleClearFilters = () => {
@@ -118,8 +165,79 @@ const OffersPage = () => {
     setSelectedForCompare([]);
   };
 
-  // Calculate offers to render
-  const offersToRender = filteredOffers;
+  // NEW: Apply popular combo filters
+  const applyPopularCombo = (comboName) => {
+    const combos = {
+      'honda400': { brand: 'honda', budgetMax: 400, dealType: 'lease' },
+      'toyota24': { brand: 'toyota', term: '24', dealType: 'lease' },
+      'ev500': { fuelType: 'electric', budgetMax: 500, dealType: 'all' },
+      'hybrid350': { fuelType: 'hybrid', budgetMax: 350, dealType: 'lease' },
+      'lowCredit': { creditScore: '640-679', budgetMax: 450, dealType: 'all' }
+    };
+    
+    const combo = combos[comboName];
+    if (combo) {
+      applyFilters({ ...activeFilters, ...combo });
+    }
+  };
+
+  // NEW: Sort offers
+  const sortOffers = (offersToSort) => {
+    const sorted = [...offersToSort];
+    
+    switch (sortBy) {
+      case 'match':
+        return sorted.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+      case 'price-low':
+        return sorted.sort((a, b) => {
+          const paymentA = a.monthlyPayment || a.lease?.monthly || 9999;
+          const paymentB = b.monthlyPayment || b.lease?.monthly || 9999;
+          return paymentA - paymentB;
+        });
+      case 'price-high':
+        return sorted.sort((a, b) => {
+          const paymentA = a.monthlyPayment || a.lease?.monthly || 0;
+          const paymentB = b.monthlyPayment || b.lease?.monthly || 0;
+          return paymentB - paymentA;
+        });
+      case 'savings':
+        return sorted.sort((a, b) => (b.discount || 0) - (a.discount || 0));
+      default:
+        return sorted;
+    }
+  };
+
+  // NEW: Calculate badges
+  const getBadges = (offer, allOffers) => {
+    const badges = [];
+    
+    // Best Deal - highest savings
+    const maxSavings = Math.max(...allOffers.map(o => o.discount || 0));
+    if (offer.discount && offer.discount === maxSavings && maxSavings > 0) {
+      badges.push({ text: 'Best Deal', color: 'bg-green-600' });
+    }
+    
+    // Hot - low stock
+    if (offer.stock && offer.stock <= 2) {
+      badges.push({ text: 'Hot', color: 'bg-red-600' });
+    }
+    
+    // New - added recently (within 7 days)
+    if (offer.createdAt) {
+      const daysSinceAdded = (Date.now() - new Date(offer.createdAt)) / (1000 * 60 * 60 * 24);
+      if (daysSinceAdded <= 7) {
+        badges.push({ text: 'New', color: 'bg-blue-600' });
+      }
+    }
+    
+    return badges;
+  };
+
+  // Calculate offers to render with sorting and badges
+  const offersToRender = sortOffers(filteredOffers).map(offer => ({
+    ...offer,
+    badges: getBadges(offer, offers)
+  }));
 
   return (
     <div className="min-h-screen bg-gray-50">
