@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Slider } from './ui/slider';
 import { X, SlidersHorizontal } from 'lucide-react';
 
-const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [] }) => {
+const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [], filteredCount = 0 }) => {
   const [filters, setFilters] = useState({
     dealType: 'all',
     brand: 'all',
@@ -22,6 +22,15 @@ const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [] }) => {
   
   const [detectedLocation, setDetectedLocation] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
+
+  // Watch filteredCount changes to update suggestions
+  useEffect(() => {
+    if (filteredCount === 0 && allOffers.length > 0) {
+      generateSuggestions(filters, filteredCount);
+    } else {
+      setSuggestions([]);
+    }
+  }, [filteredCount, filters, allOffers.length]);
 
   // Count offers per filter option
   const countOffersForOption = (filterKey, filterValue) => {
