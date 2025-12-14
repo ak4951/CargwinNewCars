@@ -54,6 +54,11 @@ const Hero = () => {
           Hunter.Lease — the best lease deals in California
         </p>
 
+        {/* Search Bar */}
+        <div className="max-w-2xl mx-auto mb-8 px-4">
+          <LiveSearch placeholder="Поиск автомобиля по марке или модели..." />
+        </div>
+
         {/* BIG CTA */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6 sm:mb-8 px-4">
           <Button
