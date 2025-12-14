@@ -629,6 +629,8 @@ test_plan:
   test_priority: "high_first"
 
 agent_communication:
+  - agent: "testing"
+    message: "🔴 OFFER COMPARISON FEATURE TESTING COMPLETED - CRITICAL BUG FOUND: Frontend comparison UI is 100% functional (compare buttons, CompareBar, navigation all working), but backend has data source mismatch. OffersPage.jsx fetches offers from /api/cars (cars collection) but /api/compare endpoint only searches featured_deals collection. When user selects 2 offers and clicks 'Сравнить (2)', they navigate to /compare page but see 'No deals to compare' because backend returns {\"detail\": \"No deals found\"}. The IDs (e.g., 693cbae67a189b0a893f118c) exist in cars collection but not in featured_deals. SOLUTION: Either update OffersPage.jsx line 30 to fetch from /api/deals/list instead of /api/cars, OR update /api/compare endpoint (server.py line 2539) to also search cars collection. Recommend Option 1 since /api/deals/list is the correct endpoint for the compare feature."
   - agent: "main"
     message: "🔍 QA AUDIT P0 CRITICAL ISSUES INVESTIGATION STARTED: Working on fixing 4 critical issues identified in production site audit: 1) Car detail page routing broken 2) Authentication API 401 errors 3) Navigation anchor links not working 4) Data mismatch (BMW instead of Lexus)"
   - agent: "testing"
