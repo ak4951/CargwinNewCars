@@ -364,15 +364,6 @@ const OffersPage = () => {
             </div>
           </div>
         </div>
-            </button>
-            <button
-              onClick={() => applyFilters({fuelType: 'hybrid', budgetMax: 350})}
-              className="text-blue-600 hover:underline"
-            >
-              Hybrid under $350
-            </button>
-          </div>
-        </div>
 
         {/* Match Score */}
         {activeFilters && offersToRender.length > 0 && (
