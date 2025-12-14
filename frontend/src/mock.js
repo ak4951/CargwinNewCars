@@ -149,6 +149,43 @@ export const mockInstagramReviews = [
   }
 ];
 
+// Video reviews for embedded player
+export const mockVideoReviews = [
+  {
+    id: "video1",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    thumbnail: "https://images.pexels.com/photos/3752169/pexels-photo-3752169.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Сэкономил $6,200 на новой BMW 3 Series — без обмана и допов!",
+    author: "Дмитрий К.",
+    location: "Лос-Анджелес, CA",
+    savings: 6200,
+    likes: 847,
+    comments: 124
+  },
+  {
+    id: "video2",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    thumbnail: "https://images.pexels.com/photos/1319839/pexels-photo-1319839.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Честный отзыв: как получила Toyota Camry на $4,500 дешевле дилера",
+    author: "Анна С.",
+    location: "Сан-Франциско, CA",
+    savings: 4500,
+    likes: 1243,
+    comments: 89
+  },
+  {
+    id: "video3",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+    thumbnail: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800",
+    title: "Процесс покупки Tesla Model 3 — быстро, прозрачно, без головной боли",
+    author: "Максим В.",
+    location: "Сан-Диего, CA",
+    savings: 5800,
+    likes: 965,
+    comments: 156
+  }
+];
+
 export const mockFAQ = [
   {
     id: 1,
