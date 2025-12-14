@@ -57,7 +57,7 @@ const InteractiveSavingsCalculator = () => {
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            See How Much You'll Save
+            See How Much You will Save
           </h2>
           <p className="text-xl text-gray-600">
             Answer 3 quick questions to reveal your savings

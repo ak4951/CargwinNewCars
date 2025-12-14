@@ -12,7 +12,7 @@ const CarMatchQuiz = () => {
 
   const questions = [
     {
-      q: "What's most important to you?",
+      q: "What is most important to you?",
       options: [
         { text: 'Lowest monthly payment', value: 'price', filter: 'budgetMax=400' },
         { text: 'Fuel efficiency', value: 'efficiency', filter: 'fuelType=hybrid' },

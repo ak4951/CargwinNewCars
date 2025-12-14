@@ -99,7 +99,7 @@ const ExitIntentModal = () => {
               <Mail className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Don't Miss Out!
+              Do not Miss Out!
             </h3>
             <p className="text-gray-600 mb-6">
               New deals drop every week. Get notified when we find <strong>your perfect car</strong> at fleet pricing.
@@ -123,7 +123,7 @@ const ExitIntentModal = () => {
             </form>
 
             <p className="text-xs text-gray-500 mt-4">
-              97% of visitors who leave never come back. Don't be one of them.
+              97% of visitors who leave never come back. Do not be one of them.
             </p>
           </div>
         )}

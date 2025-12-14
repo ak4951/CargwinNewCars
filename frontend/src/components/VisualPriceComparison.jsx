@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card } from './ui/card';
-import { Check, X } from 'lucide-react';
+import { Card, CardContent } from './ui/card';
+import { Check, X, DollarSign } from 'lucide-react';
 
 const VisualPriceComparison = () => {
   const comparison = [
