@@ -3,9 +3,10 @@ import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { Star, DollarSign, Instagram, ExternalLink } from 'lucide-react';
-import { mockReviews, mockInstagramReviews } from '../mock';
+import { mockReviews, mockInstagramReviews, mockVideoReviews } from '../mock';
 import { formatPrice } from '../utils/timer';
 import { useI18n } from '../hooks/useI18n';
+import VerticalVideoPlayer from './VerticalVideoPlayer';
 
 const Reviews = () => {
   const { t } = useI18n();
@@ -72,62 +73,43 @@ const Reviews = () => {
           ))}
         </div>
 
-        {/* Instagram Video Reviews */}
+        {/* Video Reviews - Embedded Player */}
         <div className="mb-16">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+          <div className="text-center mb-12">
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
               {t('reviews.instagram_title')}
             </h3>
-            <p className="text-gray-600">
-              Смотрите реальные истории наших клиентов
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Смотрите реальные истории наших клиентов прямо здесь
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {mockInstagramReviews.map((video) => (
-              <div key={video.id} className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                {/* Video Thumbnail */}
-                <div className="relative aspect-video bg-gradient-to-br from-purple-500 to-pink-500">
-                  <img 
-                    src={video.thumbnail}
-                    alt={video.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
-                  
-                  {/* Instagram Icon */}
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                    <Instagram className="w-5 h-5 text-pink-600" />
-                  </div>
+          {/* Vertical Video Player */}
+          <div className="flex justify-center">
+            <VerticalVideoPlayer videos={mockVideoReviews} autoPlayOnView={true} />
+          </div>
 
-                  {/* Play Button */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <div className="w-0 h-0 border-l-[16px] border-l-red-600 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent ml-1" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <h4 className="font-semibold text-gray-900 mb-3 line-clamp-2">
-                    {video.title}
-                  </h4>
-                  
-                  <Button
-                    asChild
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-                  >
-                    <a href={video.url} target="_blank" rel="noopener noreferrer">
-                      <Instagram className="w-4 h-4 mr-2" />
-                      {t('reviews.watch_on_instagram')}
-                      <ExternalLink className="w-4 h-4 ml-2" />
-                    </a>
-                  </Button>
-                </div>
-              </div>
-            ))}
+          {/* Instagram Link Below */}
+          <div className="text-center mt-8">
+            <p className="text-gray-600 mb-4">
+              Больше отзывов в нашем Instagram
+            </p>
+            <Button
+              asChild
+              variant="outline"
+              className="border-pink-600 text-pink-600 hover:bg-pink-50"
+            >
+              <a 
+                href="https://www.instagram.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2"
+              >
+                <Instagram className="w-5 h-5" />
+                Подписаться на @hunter.lease
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </Button>
           </div>
         </div>
 
