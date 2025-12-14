@@ -59,6 +59,25 @@ async def notify_offer_booked(offer_id, location):
         'message': f'Someone from {location} just booked this offer'
     }, room=f"offer_{offer_id}")
 
+async def broadcast_offer_update(offer_id, action='updated', offer_data=None):
+    """
+    Broadcast offer update to subscribed clients
+    Args:
+        offer_id: The offer ID
+        action: 'updated', 'created', 'deleted'
+        offer_data: The updated offer data
+    """
+    try:
+        await sio.emit('offer_update', {
+            'action': action,
+            'offer_id': offer_id,
+            'offer': offer_data
+        }, room=f"offer_{offer_id}")
+        
+        logger.info(f"Broadcasted {action} for offer {offer_id}")
+    except Exception as e:
+        logger.error(f"Error broadcasting offer update: {e}")
+
 # Get Socket.IO app for mounting
 def get_socketio_app():
     """Get Socket.IO ASGI app"""
