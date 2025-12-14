@@ -70,15 +70,22 @@ const OfferCard = ({ offer }) => {
 
   return (
     <Link to={`/car/${offerId}`}>
-      <div className="bg-white rounded-lg shadow hover:shadow-xl transition-shadow duration-200 overflow-hidden cursor-pointer h-full">
+      <div className="bg-white rounded-lg shadow hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer h-full transform hover:scale-105">
         {/* Image */}
-        <div className="h-40 sm:h-48 bg-gray-200 overflow-hidden">
+        <div className="h-40 sm:h-48 bg-gray-200 overflow-hidden relative">
           <img
-            src={offer.image || 'https://via.placeholder.com/400x300'}
+            src={(offer.images && offer.images[0]) || offer.image || 'https://via.placeholder.com/400x300'}
             alt={title}
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
             loading="lazy"
           />
+          
+          {/* Stock Badge */}
+          {stockLeft <= 3 && (
+            <div className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">
+              🔥 Only {stockLeft} left
+            </div>
+          )}
         </div>
 
         {/* Content - Compact */}
@@ -95,44 +102,52 @@ const OfferCard = ({ offer }) => {
             {miles > 0 && <span className="text-gray-600">• {(miles / 1000).toFixed(1)}k mi/yr</span>}
           </div>
 
-          {/* Payment - Bold */}
+          {/* Dealer Comparison */}
+          {payment > 0 && (
+            <div className="mb-2 p-2 bg-blue-50 rounded text-xs">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Dealer Price:</span>
+                <span className="line-through text-gray-500">${dealerPayment}/mo</span>
+              </div>
+              <div className="flex justify-between items-center font-bold text-green-700">
+                <span>You Save:</span>
+                <span>${savingsVsDealer}/mo (22%)</span>
+              </div>
+            </div>
+          )}
+
+          {/* Payment - HUGE & BOLD */}
           <div className="mb-2">
-            <div className="text-xl sm:text-2xl font-bold text-red-600">
+            <div className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-800 animate-pulse-slow">
               ${payment.toFixed(0)}
               <span className="text-xs sm:text-sm text-gray-600 font-normal">/mo</span>
             </div>
           </div>
 
-          {/* Savings */}
+          {/* Savings Badge - Prominent */}
           {savings > 0 && (
             <div className="mb-3">
-              <Badge className="bg-green-100 text-green-700 text-xs">
-                Save ${savings.toLocaleString()}
+              <Badge className="bg-green-600 text-white text-sm px-3 py-1">
+                ↓ Save ${savings.toLocaleString()} ({savingsPercent}%)
               </Badge>
             </div>
           )}
 
-          {/* FOMO */}
-          {stockLeft && stockLeft <= 3 && (
-            <div className="text-xs text-orange-600 mb-3">
-              🔥 Only {stockLeft} left
-            </div>
-          )}
-
-          {/* CTA */}
-          <div className="flex gap-2">
-            <Button className="flex-1 bg-red-600 hover:bg-red-700 text-sm py-2">
-              View Deal
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={toggleSaved}
-              className="text-sm"
-            >
-              <Heart className={`w-4 h-4 ${isSaved ? 'fill-red-500 text-red-500' : ''}`} />
-            </Button>
+          {/* FOMO Countdown */}
+          <div className="mb-3 text-xs text-orange-600 font-semibold">
+            ⏰ Price expires in {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
           </div>
+
+          {/* Trust Signals */}
+          <div className="mb-3 space-y-1 text-xs text-gray-600">
+            <div>✓ No dealer fees</div>
+            <div>✓ Price locked 24h</div>
+          </div>
+
+          {/* CTA - Full Width, Big */}
+          <Button className="w-full bg-red-600 hover:bg-red-700 text-white py-4 text-lg font-bold rounded-lg">
+            Get This Deal →
+          </Button>
         </div>
       </div>
     </Link>
