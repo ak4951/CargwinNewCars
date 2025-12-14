@@ -150,38 +150,75 @@ const OffersPage = () => {
         </div>
 
         {/* Quick Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-2 mb-6">
-          <button
-            onClick={() => applyFilters({...activeFilters, budgetMax: 300})}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-          >
-            Under $300
-          </button>
-          <button
-            onClick={() => applyFilters({...activeFilters, budgetMax: 400})}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-          >
-            Under $400
-          </button>
-          <button
-            onClick={() => applyFilters({...activeFilters, dealType: 'lease'})}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-          >
-            Lease Only
-          </button>
-          <button
-            onClick={() => applyFilters({...activeFilters, fuelType: 'electric'})}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
-          >
-            EVs Only
-          </button>
-          <button
-            onClick={() => handleClearFilters()}
-            className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
-          >
-            Clear All
-          </button>
+        <div className="mb-6">
+          <div className="flex flex-wrap justify-center gap-2 mb-3">
+            <button
+              onClick={() => applyFilters({...activeFilters, budgetMax: 300})}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Under $300
+            </button>
+            <button
+              onClick={() => applyFilters({...activeFilters, budgetMax: 400})}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Under $400
+            </button>
+            <button
+              onClick={() => applyFilters({...activeFilters, dealType: 'lease'})}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Lease Only
+            </button>
+            <button
+              onClick={() => applyFilters({...activeFilters, fuelType: 'electric'})}
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+            >
+              EVs Only
+            </button>
+            <button
+              onClick={() => handleClearFilters()}
+              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
+            >
+              Clear All
+            </button>
+          </div>
+
+          {/* Popular Searches */}
+          <div className="text-center text-sm text-gray-600">
+            <span className="mr-2">🔥 Popular:</span>
+            <button
+              onClick={() => applyFilters({brand: 'honda', budgetMax: 400, dealType: 'lease'})}
+              className="text-blue-600 hover:underline mr-3"
+            >
+              Honda under $400
+            </button>
+            <button
+              onClick={() => applyFilters({brand: 'toyota', term: '24'})}
+              className="text-blue-600 hover:underline mr-3"
+            >
+              Toyota 24mo
+            </button>
+            <button
+              onClick={() => applyFilters({fuelType: 'hybrid', budgetMax: 350})}
+              className="text-blue-600 hover:underline"
+            >
+              Hybrid under $350
+            </button>
+          </div>
         </div>
+
+        {/* Match Score */}
+        {activeFilters && offersToRender.length > 0 && (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 text-center">
+            <div className="text-xl font-bold text-green-700">
+              🎯 {offersToRender.length === 1 ? 'Perfect Match!' : `${offersToRender.length} Great Matches!`}
+            </div>
+            <div className="text-sm text-green-600 mt-1">
+              These offers match your criteria
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Left - Filters (Fixed Sticky) */}
