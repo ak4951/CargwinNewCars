@@ -611,7 +611,7 @@ frontend:
 
   - task: "Offer Comparison Feature on /deals Page"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/pages/OffersPage.jsx, /app/frontend/src/components/CompareBar.jsx, /app/frontend/src/components/OfferCard.jsx, /app/backend/server.py"
     stuck_count: 0
     priority: "high"
@@ -620,6 +620,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "🔴 CRITICAL BUG FOUND - DATA SOURCE MISMATCH: Tested offer comparison feature on /deals page. FRONTEND WORKING: ✅ Compare buttons (Plus icons) visible on all 10 offer cards in top-left corner ✅ Clicking compare buttons successfully selects offers (button changes to red with Check icon) ✅ CompareBar appears at bottom after selecting 2 offers ✅ CompareBar shows correct text 'Сравнить (2/3):' with 2 offer images ✅ 'Очистить' (Clear) button present ✅ 'Сравнить (2)' button enabled and clickable ✅ Successfully navigates to /compare page with IDs in URL (e.g., /compare?ids=693cbae67a189b0a893f118c,693cbae67a189b0a893f118d). BACKEND ISSUE: ❌ Compare page shows 'No deals to compare' message ❌ Backend API POST /api/compare returns {\"detail\": \"No deals found\"} ❌ ROOT CAUSE: Data source mismatch - OffersPage.jsx fetches from /api/cars endpoint (cars collection) but /api/compare endpoint expects IDs from /api/deals/list endpoint (featured_deals collection). The IDs exist in cars collection but compare endpoint only searches featured_deals collection. SOLUTION NEEDED: Either (1) Update OffersPage.jsx to fetch from /api/deals/list instead of /api/cars, OR (2) Update /api/compare endpoint to work with cars collection IDs. Frontend compare UI is 100% functional, only backend data integration is broken."
+      - working: true
+        agent: "testing"
+        comment: "🎉 OFFER COMPARISON FEATURE FULLY FUNCTIONAL - BACKEND FIX VERIFIED (2025-12-14): Comprehensive testing completed with ALL 14 TESTS PASSED. ✅ TEST 1-2: /deals page loads with 10 offer cards, each with Plus button in top-left corner ✅ TEST 3-4: Clicking Plus buttons on first 2 offers successfully selects them (buttons change to red with Check icon) ✅ TEST 5: CompareBar appears at bottom showing 'Сравнить (2/3)' with 2 offer images and 'Очистить' (Clear) button ✅ TEST 6-7: Clicking 'Сравнить (2)' button navigates to /compare page with IDs in URL (e.g., /compare?ids=693cbae67a189b0a893f118c,693cbae67a189b0a893f118e) ✅ TEST 8: No 'No deals to compare' error message ✅ TEST 9-10: Comparison table displays with 2 car images (2025 Toyota Camry LE, 2026 Hyundai Kona SE) ✅ TEST 11: Payment details visible (Monthly Payment: $350/mo vs $280/mo, Drive-Off: $0, One-Pay: $0) ✅ TEST 12: Terms visible (Term: 0 months, Mileage: 0.0k mi/yr) ✅ TEST 13: Savings visible (MSRP: $28,000 vs $27,000, Selling Price: $26,000 vs $24,000, Savings vs MSRP: $2000 vs $3000) ✅ TEST 14: Summary section displays (Avg Payment: $315/mo, Payment Spread: $70, Best Deal: Hyundai Kona). BACKEND FIX CONFIRMED: Backend /api/compare endpoint (server.py lines 2535-2549) now correctly uses ObjectId lookup in cars collection. The data source mismatch issue has been resolved - backend now queries db.cars.find_one({\"_id\": ObjectId(deal_id)}) which successfully retrieves offers from the cars collection. All comparison data (payment details, terms, savings) displayed correctly with proper highlighting of best values (green background for best payment, drive-off, and savings). FEATURE 100% OPERATIONAL!"
 
 test_plan:
   current_focus:
