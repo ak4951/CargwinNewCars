@@ -3690,6 +3690,16 @@ async def update_offer(offer_id: str, offer_data: dict, current_user: User = Dep
         if result.matched_count == 0:
             raise HTTPException(status_code=404, detail="Not found")
         
+        # Broadcast WebSocket update
+        try:
+            from websocket_manager import broadcast_offer_update
+            updated = await db.cars.find_one({"_id": oid}, {"_id": 0})
+            if updated:
+                updated['id'] = offer_id
+                await broadcast_offer_update(offer_id, 'updated', updated)
+        except Exception as ws_err:
+            logger.warning(f"WS broadcast failed: {ws_err}")
+        
         return {"success": True, "offerId": offer_id}
     except HTTPException:
         raise
