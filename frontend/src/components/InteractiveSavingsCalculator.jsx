@@ -114,7 +114,7 @@ const InteractiveSavingsCalculator = () => {
                 {step >= 2 && (
                   <div className={`transition-all duration-500 ${step === 2 ? 'opacity-100' : 'opacity-50'}`}>
                     <label className="block text-lg font-semibold text-gray-900 mb-3">
-                      2. What's your ideal monthly budget?
+                      2. What&apos;s your ideal monthly budget?
                     </label>
                     <Select value={selections.budget} onValueChange={(v) => handleSelect('budget', v)}>
                       <SelectTrigger className="h-14 text-lg">

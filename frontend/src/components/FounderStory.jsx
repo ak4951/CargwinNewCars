@@ -150,7 +150,7 @@ const FounderStory = () => {
         {/* How We Work With Dealers */}
         <div className="mt-16 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-8 md:p-12 text-white">
           <h3 className="text-3xl font-bold mb-6">
-            "But Why Would Dealers Work With You?"
+            &ldquo;But Why Would Dealers Work With You?&rdquo;
           </h3>
           
           <div className="space-y-4 text-lg">
@@ -181,11 +181,11 @@ const FounderStory = () => {
 
             <p className="leading-relaxed">
               These departments <strong>love volume</strong>. They do not care about squeezing every dollar out of you. 
-              They care about moving inventory fast. That's why they give us the same rates they give Hertz and Enterprise.
+              They care about moving inventory fast. That&apos;s why they give us the same rates they give Hertz and Enterprise.
             </p>
 
             <p className="text-yellow-400 font-bold text-xl">
-              You're not buying from a dealer. You're buying from the source.
+              You&apos;re not buying from a dealer. You&apos;re buying from the source.
             </p>
           </div>
         </div>
