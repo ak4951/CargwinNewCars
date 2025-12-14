@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import { Car, Package, Settings, FileText, LogOut, User, Users, FileCheck, DollarSign, TrendingUp, Calculator, Percent, MapPin, Wrench, Upload, FileSpreadsheet, Tag, Zap, Activity, BarChart3, Bell, Sparkles, Image as ImageIcon, Download, Instagram } from 'lucide-react';
+import { Car, Package, Settings, FileText, LogOut, User, Users, FileCheck, DollarSign, TrendingUp, Calculator, Percent, MapPin, Wrench, Upload, FileSpreadsheet, Tag, Zap, Activity, BarChart3, Bell, Sparkles, Image as ImageIcon, Download, Instagram, Globe } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useI18n } from '../../hooks/useI18n';
 
@@ -79,6 +79,13 @@ const AdminLayout = ({ children }) => {
       icon: Instagram,
       path: '/admin/video-reviews',
       requiredRole: 'editor'
+    },
+    {
+      id: 'seo-pages',
+      label: 'SEO Pages (1000+)',
+      icon: Globe,
+      path: '/admin/seo-pages',
+      requiredRole: 'admin'
     }
   ];
 

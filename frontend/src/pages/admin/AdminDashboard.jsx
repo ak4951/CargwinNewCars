@@ -30,6 +30,7 @@ import ScraperControl from './ScraperControl';
 import OffersManagement from './OffersManagement';
 import OfferEditor from './OfferEditor';
 import VideoReviewsManager from './VideoReviewsManager';
+import SEOPagesManager from './SEOPagesManager';
 
 const AdminDashboard = () => {
   const { isAuthenticated, loading } = useAuth();
@@ -78,6 +79,7 @@ const AdminDashboard = () => {
         <Route path="offers/new" element={<OfferEditor />} />
         <Route path="offers/:id/edit" element={<OfferEditor />} />
         <Route path="video-reviews" element={<VideoReviewsManager />} />
+        <Route path="seo-pages" element={<SEOPagesManager />} />
       </Routes>
     </AdminLayout>
   );
