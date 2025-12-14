@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Heart } from 'lucide-react';
+import { Heart, Plus, Check } from 'lucide-react';
 
-const OfferCard = ({ offer }) => {
+const OfferCard = ({ offer, onCompareToggle, isSelected }) => {
   const [isSaved, setIsSaved] = React.useState(false);
   const [timeLeft, setTimeLeft] = React.useState({ hours: 14, minutes: 32, seconds: 18 });
 
