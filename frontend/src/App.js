@@ -121,15 +121,16 @@ function App() {
                   <Route path="/my-favorites" element={<MyFavorites />} />
                   <Route path="/broker-application" element={<BrokerApplication />} />
                   <Route path="/preview/:token" element={<PreviewLot />} />
+                  
+                  {/* SEO Pages - Catch all deals-* routes */}
+                  <Route path="/deals-*" element={<SEOPage />} />
+                  
                   <Route path="/admin/login" element={<AdminLogin />} />
                   <Route path="/admin/lease-programs" element={<LeasePrograms />} />
                   <Route path="/admin/finance-programs" element={<FinancePrograms />} />
                   <Route path="/admin/tax-configs" element={<TaxConfigs />} />
                   <Route path="/admin/calculator-tools" element={<CalculatorTools />} />
                   <Route path="/admin/*" element={<AdminDashboard />} />
-                  
-                  {/* SEO Pages - Must be last to catch all /deals-* routes */}
-                  <Route path="/deals-*" element={<SEOPage />} />
                 </Routes>
               </AuthProvider>
             </FOMOSettingsProvider>
