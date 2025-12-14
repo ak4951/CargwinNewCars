@@ -285,6 +285,57 @@ const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [], filteredCount
           <label className="text-sm font-medium mb-2 block">
             Monthly Budget
           </label>
+          
+          {/* Range Histogram */}
+          <div className="mb-4 bg-gray-50 rounded-lg p-3">
+            <div className="text-xs text-gray-600 mb-2 text-center">
+              Распределение предложений по цене
+            </div>
+            <div className="flex items-end justify-between h-20 gap-1">
+              {[
+                { range: '$0-200', min: 0, max: 200 },
+                { range: '$200-300', min: 200, max: 300 },
+                { range: '$300-400', min: 300, max: 400 },
+                { range: '$400-500', min: 400, max: 500 },
+                { range: '$500-700', min: 500, max: 700 },
+                { range: '$700+', min: 700, max: 2000 }
+              ].map((bucket, idx) => {
+                const count = allOffers.filter(o => {
+                  const payment = o.monthlyPayment || o.lease?.monthly || 0;
+                  return payment >= bucket.min && payment < bucket.max;
+                }).length;
+                
+                const maxCount = Math.max(1, ...allOffers.map(o => 1));
+                const height = allOffers.length > 0 ? (count / allOffers.length) * 100 : 0;
+                const isInRange = filters.budgetMin <= bucket.max && filters.budgetMax >= bucket.min;
+                
+                return (
+                  <div key={idx} className="flex-1 flex flex-col items-center gap-1">
+                    <div 
+                      className={`w-full rounded-t transition-all cursor-pointer ${
+                        isInRange 
+                          ? 'bg-red-600 hover:bg-red-700' 
+                          : 'bg-gray-300 hover:bg-gray-400'
+                      }`}
+                      style={{ height: `${height}%` }}
+                      onClick={() => {
+                        handleChange('budgetMin', bucket.min);
+                        handleChange('budgetMax', bucket.max);
+                      }}
+                      title={`${count} предложений в диапазоне ${bucket.range}`}
+                    />
+                    <div className="text-[8px] text-gray-500 text-center leading-tight">
+                      {bucket.range}
+                    </div>
+                    <div className="text-[10px] font-bold text-gray-700">
+                      {count}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          
           <div className="space-y-3">
             <div>
               <label className="text-xs text-gray-600">Min: ${filters.budgetMin}</label>
