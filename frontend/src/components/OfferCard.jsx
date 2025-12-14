@@ -69,24 +69,49 @@ const OfferCard = ({ offer, onCompareToggle, isSelected }) => {
   }, [offer.id]);
 
   return (
-    <Link to={`/car/${offerId}`}>
-      <div className="bg-white rounded-lg shadow hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer h-full transform hover:scale-105">
-        {/* Image */}
-        <div className="h-40 sm:h-48 bg-gray-200 overflow-hidden relative">
-          <img
-            src={(offer.images && offer.images[0]) || offer.image || 'https://via.placeholder.com/400x300'}
-            alt={title}
-            className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-            loading="lazy"
-          />
-          
-          {/* Stock Badge */}
-          {stockLeft <= 3 && (
-            <div className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">
-              🔥 Only {stockLeft} left
-            </div>
-          )}
+    <div className="bg-white rounded-lg shadow hover:shadow-2xl transition-all duration-300 overflow-hidden h-full relative">
+      {/* Compare Checkbox */}
+      {onCompareToggle && (
+        <div className="absolute top-2 left-2 z-10">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onCompareToggle(offer);
+            }}
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+              isSelected
+                ? 'bg-red-600 text-white shadow-lg scale-110'
+                : 'bg-white/90 backdrop-blur-sm text-gray-600 hover:bg-red-50'
+            }`}
+          >
+            {isSelected ? (
+              <Check className="w-5 h-5" />
+            ) : (
+              <Plus className="w-5 h-5" />
+            )}
+          </button>
         </div>
+      )}
+
+      <Link to={`/car/${offerId}`}>
+        <div className="cursor-pointer transform hover:scale-105 transition-transform duration-300">
+          {/* Image */}
+          <div className="h-40 sm:h-48 bg-gray-200 overflow-hidden relative">
+            <img
+              src={(offer.images && offer.images[0]) || offer.image || 'https://via.placeholder.com/400x300'}
+              alt={title}
+              className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+              loading="lazy"
+            />
+            
+            {/* Stock Badge */}
+            {stockLeft <= 3 && (
+              <div className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">
+                🔥 Only {stockLeft} left
+              </div>
+            )}
+          </div>
 
         {/* Content - Compact */}
         <div className="p-3 sm:p-4">
