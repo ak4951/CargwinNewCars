@@ -2633,6 +2633,163 @@ async def get_public_video_reviews_endpoint():
         return reviews
         
     except Exception as e:
+
+
+# ==========================================
+# SEO PAGES GENERATOR (PROGRAMMATIC SEO)
+# ==========================================
+
+@api_router.post("/admin/seo/generate-pages")
+async def generate_seo_pages_endpoint(batch_size: int = 100):
+    """
+    Generate SEO pages in batches
+    """
+    try:
+        from seo_generator import generate_page_combinations, generate_page_content_with_ai
+        
+        # Generate all combinations
+        pages = generate_page_combinations()
+        
+        logger.info(f"Generating {len(pages)} SEO pages...")
+        
+        # Check existing
+        existing_count = await db.seo_pages.count_documents({})
+        
+        if existing_count > 0:
+            return {
+                "ok": True,
+                "message": f"Already have {existing_count} pages. Use force=true to regenerate.",
+                "existing": existing_count
+            }
+        
+        # Generate in batches
+        generated = 0
+        for i in range(0, min(len(pages), batch_size)):
+            page_config = pages[i]
+            
+            # Generate AI content
+            content = await generate_page_content_with_ai(page_config)
+            
+            # Create page document
+            page_doc = {
+                **page_config,
+                **content,
+                "status": "published",
+                "views": 0,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(timezone.utc).isoformat()
+            }
+            
+            # Insert
+            await db.seo_pages.insert_one(page_doc)
+            generated += 1
+            
+            if generated % 10 == 0:
+                logger.info(f"Generated {generated}/{batch_size} pages...")
+        
+        return {
+            "ok": True,
+            "generated": generated,
+            "total_planned": len(pages),
+            "message": f"Generated {generated} pages. Call again to continue."
+        }
+        
+    except Exception as e:
+        logger.error(f"SEO generation error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/admin/seo/pages")
+async def get_seo_pages_endpoint(skip: int = 0, limit: int = 50):
+    """Get all SEO pages for admin"""
+    try:
+        total = await db.seo_pages.count_documents({})
+        pages = await db.seo_pages.find(
+            {}, 
+            {"_id": 0}
+        ).skip(skip).limit(limit).to_list(limit)
+        
+        return {
+            "ok": True,
+            "total": total,
+            "pages": pages,
+            "skip": skip,
+            "limit": limit
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching SEO pages: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/admin/seo/stats")
+async def get_seo_stats_endpoint():
+    """Get SEO pages statistics"""
+    try:
+        total = await db.seo_pages.count_documents({})
+        
+        # Count by type
+        pipeline = [
+            {"$group": {"_id": "$type", "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}}
+        ]
+        by_type = await db.seo_pages.aggregate(pipeline).to_list(None)
+        
+        # Total views
+        total_views_result = await db.seo_pages.aggregate([
+            {"$group": {"_id": None, "total_views": {"$sum": "$views"}}}
+        ]).to_list(1)
+        total_views = total_views_result[0]['total_views'] if total_views_result else 0
+        
+        return {
+            "ok": True,
+            "total_pages": total,
+            "by_type": by_type,
+            "total_views": total_views
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching SEO stats: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/seo-page/{slug}")
+async def get_seo_page_public(slug: str):
+    """Get SEO page content for frontend"""
+    try:
+        page = await db.seo_pages.find_one({"slug": slug}, {"_id": 0})
+        
+        if not page:
+            raise HTTPException(status_code=404, detail="Page not found")
+        
+        # Increment views
+        await db.seo_pages.update_one(
+            {"slug": slug},
+            {"$inc": {"views": 1}}
+        )
+        
+        return page
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching SEO page: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.delete("/admin/seo/pages/all")
+async def delete_all_seo_pages():
+    """Delete all SEO pages (for regeneration)"""
+    try:
+        result = await db.seo_pages.delete_many({})
+        return {
+            "ok": True,
+            "deleted": result.deleted_count
+        }
+    except Exception as e:
+        logger.error(f"Error deleting SEO pages: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
         logger.error(f"Error fetching public video reviews: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
