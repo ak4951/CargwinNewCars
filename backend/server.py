@@ -2496,6 +2496,148 @@ async def delete_media_file(
 
 
 # ==========================================
+# VIDEO REVIEWS MANAGEMENT
+# ==========================================
+
+@api_router.get("/admin/video-reviews")
+async def get_video_reviews_endpoint():
+    """
+    Get all video reviews for admin management
+    """
+    try:
+        reviews = await db.video_reviews.find({}, {"_id": 0}).to_list(length=None)
+        return {"ok": True, "reviews": reviews}
+    except Exception as e:
+        logger.error(f"Error fetching video reviews: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/admin/video-reviews")
+async def create_video_review_endpoint(review: dict):
+    """
+    Create a new video review
+    Request: {
+        "instagramUrl": "https://www.instagram.com/reel/...",
+        "title": "Review title",
+        "likes": 0,
+        "comments": 0
+    }
+    """
+    try:
+        import re
+        from datetime import datetime
+        
+        # Extract reel ID from Instagram URL
+        instagram_url = review.get("instagramUrl", "")
+        match = re.search(r'/reel/([A-Za-z0-9_-]+)', instagram_url)
+        
+        if not match:
+            raise HTTPException(status_code=400, detail="Invalid Instagram URL")
+        
+        reel_id = match.group(1)
+        
+        # Create review document
+        review_doc = {
+            "id": reel_id,
+            "instagramUrl": instagram_url,
+            "embedUrl": f"https://www.instagram.com/reel/{reel_id}/embed",
+            "thumbnail": review.get("thumbnail", "https://images.pexels.com/photos/3752169/pexels-photo-3752169.jpeg?auto=compress&cs=tinysrgb&w=800"),
+            "title": review.get("title", "Отзыв клиента"),
+            "likes": review.get("likes", 0),
+            "comments": review.get("comments", 0),
+            "createdAt": datetime.now(timezone.utc).isoformat(),
+            "order": review.get("order", 0)
+        }
+        
+        # Check if already exists
+        existing = await db.video_reviews.find_one({"id": reel_id})
+        if existing:
+            raise HTTPException(status_code=400, detail="Review already exists")
+        
+        # Insert
+        await db.video_reviews.insert_one(review_doc)
+        
+        return {"ok": True, "review": review_doc}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error creating video review: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.put("/admin/video-reviews/{review_id}")
+async def update_video_review_endpoint(review_id: str, review: dict):
+    """
+    Update a video review
+    """
+    try:
+        update_data = {
+            "title": review.get("title"),
+            "likes": review.get("likes"),
+            "comments": review.get("comments"),
+            "order": review.get("order", 0)
+        }
+        
+        # Remove None values
+        update_data = {k: v for k, v in update_data.items() if v is not None}
+        
+        result = await db.video_reviews.update_one(
+            {"id": review_id},
+            {"$set": update_data}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Review not found")
+        
+        return {"ok": True, "message": "Review updated"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating video review: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.delete("/admin/video-reviews/{review_id}")
+async def delete_video_review_endpoint(review_id: str):
+    """
+    Delete a video review
+    """
+    try:
+        result = await db.video_reviews.delete_one({"id": review_id})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Review not found")
+        
+        return {"ok": True, "message": "Review deleted"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting video review: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/video-reviews")
+async def get_public_video_reviews_endpoint():
+    """
+    Get all video reviews for public display (sorted by order)
+    """
+    try:
+        reviews = await db.video_reviews.find(
+            {}, 
+            {"_id": 0}
+        ).sort("order", 1).to_list(length=None)
+        
+        return reviews
+        
+    except Exception as e:
+        logger.error(f"Error fetching public video reviews: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ==========================================
 # COMPARISON ENGINE (PHASE 10)
 # ==========================================
 

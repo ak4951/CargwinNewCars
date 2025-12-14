@@ -29,6 +29,7 @@ import AdminMultiSync from './AdminMultiSync';
 import ScraperControl from './ScraperControl';
 import OffersManagement from './OffersManagement';
 import OfferEditor from './OfferEditor';
+import VideoReviewsManager from './VideoReviewsManager';
 
 const AdminDashboard = () => {
   const { isAuthenticated, loading } = useAuth();
@@ -76,6 +77,7 @@ const AdminDashboard = () => {
         <Route path="offers" element={<OffersManagement />} />
         <Route path="offers/new" element={<OfferEditor />} />
         <Route path="offers/:id/edit" element={<OfferEditor />} />
+        <Route path="video-reviews" element={<VideoReviewsManager />} />
       </Routes>
     </AdminLayout>
   );
