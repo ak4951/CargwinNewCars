@@ -3,13 +3,35 @@ import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { Star, DollarSign, Instagram, ExternalLink } from 'lucide-react';
-import { mockReviews, mockInstagramReviews, mockVideoReviews } from '../mock';
+import { mockReviews } from '../mock';
 import { formatPrice } from '../utils/timer';
 import { useI18n } from '../hooks/useI18n';
 import InstagramReelsPlayer from './InstagramReelsPlayer';
 
 const Reviews = () => {
   const { t } = useI18n();
+  const [videoReviews, setVideoReviews] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetchVideoReviews();
+  }, []);
+
+  const fetchVideoReviews = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${backendUrl}/api/video-reviews`);
+      const data = await response.json();
+      
+      if (Array.isArray(data) && data.length > 0) {
+        setVideoReviews(data);
+      }
+    } catch (error) {
+      console.error('Error fetching video reviews:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
   
   return (
     <section id="reviews" className="py-16 bg-gray-50">
@@ -82,15 +104,30 @@ const Reviews = () => {
             <p className="text-gray-600 text-base max-w-2xl mx-auto mb-2">
               Смотрите реальные истории наших клиентов
             </p>
-            <p className="text-sm text-gray-500">
-              📱 16 видео-отзывов — листайте как в Instagram
-            </p>
+            {videoReviews.length > 0 && (
+              <p className="text-sm text-gray-500">
+                📱 {videoReviews.length} видео-отзыв{videoReviews.length > 1 ? 'ов' : ''} — листайте как в Instagram
+              </p>
+            )}
           </div>
 
           {/* Instagram Reels Player */}
-          <div className="flex justify-center">
-            <InstagramReelsPlayer reels={mockVideoReviews} />
-          </div>
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+            </div>
+          ) : videoReviews.length > 0 ? (
+            <div className="flex justify-center">
+              <InstagramReelsPlayer reels={videoReviews} />
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <Instagram className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-600">
+                Скоро здесь появятся видео-отзывы
+              </p>
+            </div>
+          )}
 
           {/* Instagram Link Below */}
           <div className="text-center mt-8">
