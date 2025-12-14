@@ -7,6 +7,8 @@ import LiveSearch from '../components/LiveSearch';
 import CompareBar from '../components/CompareBar';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '../components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '../components/ui/sheet';
+import { SlidersHorizontal } from 'lucide-react';
 
 const OffersPage = () => {
   const [offers, setOffers] = useState([]);
@@ -255,9 +257,35 @@ const OffersPage = () => {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left - Filters (Fixed Sticky) */}
+          {/* Left - Filters (Desktop Sticky, Mobile Drawer) */}
           <div className="lg:col-span-1">
-            <div className="lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto">
+            {/* Mobile Filter Button */}
+            <div className="lg:hidden mb-4">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button className="w-full bg-red-600 hover:bg-red-700 text-white">
+                    <SlidersHorizontal className="w-4 h-4 mr-2" />
+                    Фильтры {offersToRender.length < offers.length && `(${offersToRender.length})`}
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle>Фильтры</SheetTitle>
+                  </SheetHeader>
+                  <div className="mt-6">
+                    <FiltersSidebar 
+                      onFilterChange={applyFilters}
+                      onClear={handleClearFilters}
+                      allOffers={offers}
+                      filteredCount={offersToRender.length}
+                    />
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
+            
+            {/* Desktop Sidebar */}
+            <div className="hidden lg:block lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto">
               <FiltersSidebar 
                 onFilterChange={applyFilters}
                 onClear={handleClearFilters}
