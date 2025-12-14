@@ -87,6 +87,9 @@ const OffersPage = () => {
     setFilteredOffers(offers);
   };
 
+  // Calculate offers to render
+  const offersToRender = filteredOffers;
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Helmet>
@@ -130,22 +133,65 @@ const OffersPage = () => {
       </div>
       
       <div className="max-w-7xl mx-auto px-4 py-9">
-        <div className="text-center mb-8">
+        {/* Header with Live Counter */}
+        <div className="text-center mb-6">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             All Current Dump Offers
           </h1>
+          <div className="text-2xl font-bold text-green-600 mb-2">
+            🔍 Found: {offersToRender.length} offers
+            <span className="text-sm text-gray-500 ml-2">
+              (out of {offers.length} total)
+            </span>
+          </div>
           <p className="text-xl text-gray-600">
             Complete inventory. Real prices. Updated monthly.
           </p>
         </div>
 
+        {/* Quick Filter Buttons */}
+        <div className="flex flex-wrap justify-center gap-2 mb-6">
+          <button
+            onClick={() => applyFilters({...activeFilters, budgetMax: 300})}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Under $300
+          </button>
+          <button
+            onClick={() => applyFilters({...activeFilters, budgetMax: 400})}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Under $400
+          </button>
+          <button
+            onClick={() => applyFilters({...activeFilters, dealType: 'lease'})}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Lease Only
+          </button>
+          <button
+            onClick={() => applyFilters({...activeFilters, fuelType: 'electric'})}
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+          >
+            EVs Only
+          </button>
+          <button
+            onClick={() => handleClearFilters()}
+            className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
+          >
+            Clear All
+          </button>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left - Filters */}
+          {/* Left - Filters (Sticky) */}
           <div className="lg:col-span-1">
-            <FiltersSidebar 
-              onFilterChange={applyFilters}
-              onClear={handleClearFilters}
-            />
+            <div className="sticky top-20">
+              <FiltersSidebar 
+                onFilterChange={applyFilters}
+                onClear={handleClearFilters}
+              />
+            </div>
           </div>
 
           {/* Right - All Offers */}
