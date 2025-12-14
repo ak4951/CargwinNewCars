@@ -305,53 +305,65 @@ const OffersPage = () => {
 
         {/* Quick Filter Buttons */}
         <div className="mb-6">
-          <div className="flex flex-wrap justify-center gap-2 mb-3">
-            <button
-              onClick={() => applyFilters({...activeFilters, budgetMax: 300})}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-            >
-              Under $300
-            </button>
-            <button
-              onClick={() => applyFilters({...activeFilters, budgetMax: 400})}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-            >
-              Under $400
-            </button>
-            <button
-              onClick={() => applyFilters({...activeFilters, dealType: 'lease'})}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-            >
-              Lease Only
-            </button>
-            <button
-              onClick={() => applyFilters({...activeFilters, fuelType: 'electric'})}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
-            >
-              EVs Only
-            </button>
-            <button
-              onClick={() => handleClearFilters()}
-              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
-            >
-              Clear All
-            </button>
+          {/* Popular Combos */}
+          <div className="mb-4">
+            <div className="text-sm font-semibold text-gray-700 mb-3">🔥 Популярные комбинации:</div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => applyPopularCombo('honda400')}
+                className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition"
+              >
+                Honda под $400
+              </button>
+              <button
+                onClick={() => applyPopularCombo('toyota24')}
+                className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition"
+              >
+                Toyota 24 месяца
+              </button>
+              <button
+                onClick={() => applyPopularCombo('ev500')}
+                className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition"
+              >
+                EV под $500
+              </button>
+              <button
+                onClick={() => applyPopularCombo('hybrid350')}
+                className="px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg hover:bg-emerald-700 transition"
+              >
+                Hybrid под $350
+              </button>
+              <button
+                onClick={() => handleClearFilters()}
+                className="px-4 py-2 bg-gray-600 text-white text-sm rounded-lg hover:bg-gray-700 transition"
+              >
+                Сбросить всё
+              </button>
+            </div>
           </div>
 
-          {/* Popular Searches */}
-          <div className="text-center text-sm text-gray-600">
-            <span className="mr-2">🔥 Popular:</span>
-            <button
-              onClick={() => applyFilters({brand: 'honda', budgetMax: 400, dealType: 'lease'})}
-              className="text-blue-600 hover:underline mr-3"
-            >
-              Honda under $400
-            </button>
-            <button
-              onClick={() => applyFilters({brand: 'toyota', term: '24'})}
-              className="text-blue-600 hover:underline mr-3"
-            >
-              Toyota 24mo
+          {/* Sort + Results Count */}
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div className="text-gray-700">
+              Найдено: <span className="font-bold text-green-600">{offersToRender.length}</span> предложений
+            </div>
+            
+            {/* Sort Dropdown */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Сортировать:</span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600"
+              >
+                <option value="match">По соответствию</option>
+                <option value="price-low">Цена: дешевле</option>
+                <option value="price-high">Цена: дороже</option>
+                <option value="savings">По экономии</option>
+              </select>
+            </div>
+          </div>
+        </div>
             </button>
             <button
               onClick={() => applyFilters({fuelType: 'hybrid', budgetMax: 350})}
@@ -445,6 +457,8 @@ const OffersPage = () => {
                     offer={offer}
                     onCompareToggle={handleCompareToggle}
                     isSelected={selectedForCompare.some(o => o.id === offer.id)}
+                    matchScore={offer.matchScore}
+                    badges={offer.badges}
                   />
                 ))}
               </div>
