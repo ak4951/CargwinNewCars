@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Eye, TrendingUp, Clock } from 'lucide-react';
+import { Eye, TrendingUp, Clock, Wifi } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FOMOTicker from '../components/FOMOTicker';
@@ -20,6 +20,7 @@ import CustomerStoriesAmazon from '../components/hunter-redesign/CustomerStories
 import BottomCTABlock from '../components/hunter-redesign/BottomCTABlock';
 import { mockOffers } from '../mock';
 import { useI18n } from '../hooks/useI18n';
+import { useOfferUpdates } from '../hooks/useOfferUpdates';
 
 const CarDetail = () => {
   const { t } = useI18n();
@@ -30,6 +31,17 @@ const CarDetail = () => {
   const [showStickyBar, setShowStickyBar] = useState(false);
   const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [galleryStartIndex, setGalleryStartIndex] = useState(0);
+  const [liveUpdateNotification, setLiveUpdateNotification] = useState(null);
+
+  // Real-time updates
+  const { isConnected } = useOfferUpdates(carId, (updatedOffer) => {
+    if (updatedOffer) {
+      setCarData(updatedOffer);
+      // Show notification
+      setLiveUpdateNotification('Оффер обновлён администратором');
+      setTimeout(() => setLiveUpdateNotification(null), 5000);
+    }
+  });
 
   useEffect(() => {
     fetchCarData();
