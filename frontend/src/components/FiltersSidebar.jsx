@@ -222,7 +222,7 @@ const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [], filteredCount
             </p>
           )}
           <p className="text-xs text-gray-500 mt-2">
-            We'll show you deals near {filters.userZip ? `ZIP ${filters.userZip}` : 'your area'}
+            We will show you deals near {filters.userZip ? `ZIP ${filters.userZip}` : 'your area'}
           </p>
         </div>
         

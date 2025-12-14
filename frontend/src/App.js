@@ -123,18 +123,22 @@ const Home = () => {
       <Header />
       <main role="main">
         <Hero />
+        <InteractiveSavingsCalculator />
+        <FounderStory />
+        <VisualPriceComparison />
         <FeaturedDealsSection />
+        <CarMatchQuiz />
         <HowItWorks />
-        <WhyHunterLease />
         <TrustFAQ />
         <Reviews />
         <FAQ />
         <FinalCTA />
       </main>
       <Footer />
+      <StickyCTABar />
+      <ExitIntentModal />
       <CargwinGPT />
       
-      {/* Add bottom padding */}
       <div className="h-16" />
       
       {/* Add bottom padding */}
