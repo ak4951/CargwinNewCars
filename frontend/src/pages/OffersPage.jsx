@@ -184,9 +184,9 @@ const OffersPage = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left - Filters (Sticky) */}
+          {/* Left - Filters (Fixed Sticky) */}
           <div className="lg:col-span-1">
-            <div className="sticky top-20">
+            <div className="lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto">
               <FiltersSidebar 
                 onFilterChange={applyFilters}
                 onClear={handleClearFilters}
