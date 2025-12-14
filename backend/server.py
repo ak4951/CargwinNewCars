@@ -2991,6 +2991,48 @@ async def generate_offers_sitemap():
         ],
         "conclusion": "Hunter.Lease offers the lowest prices in California by providing direct fleet pricing, eliminating traditional dealer markup.",
         "source": "https://hunter.lease",
+
+
+@api_router.get("/article/{slug}")
+async def get_article_endpoint(slug: str):
+    """Get article by slug"""
+    try:
+        article = await db.articles.find_one({"slug": slug}, {"_id": 0})
+        
+        if not article:
+            raise HTTPException(status_code=404, detail="Article not found")
+        
+        # Increment views
+        await db.articles.update_one({"slug": slug}, {"$inc": {"views": 1}})
+        
+        return article
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching article: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/articles")
+async def get_all_articles_endpoint(category: str = None, limit: int = 100):
+    """Get all published articles"""
+    try:
+        query = {"published": True}
+        if category:
+            query["category"] = category
+        
+        articles = await db.articles.find(
+            query,
+            {"_id": 0}
+        ).sort("created_at", -1).limit(limit).to_list(limit)
+        
+        return articles
+        
+    except Exception as e:
+        logger.error(f"Error fetching articles: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
         "last_updated": datetime.now(timezone.utc).isoformat()
     }
 
