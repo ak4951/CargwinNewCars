@@ -174,8 +174,9 @@ const OfferCard = ({ offer, onCompareToggle, isSelected }) => {
             Get This Deal →
           </Button>
         </div>
-      </div>
-    </Link>
+        </div>
+      </Link>
+    </div>
   );
 };
 
