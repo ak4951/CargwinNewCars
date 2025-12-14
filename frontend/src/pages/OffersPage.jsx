@@ -190,6 +190,8 @@ const OffersPage = () => {
               <FiltersSidebar 
                 onFilterChange={applyFilters}
                 onClear={handleClearFilters}
+                allOffers={offers}
+                filteredCount={offersToRender.length}
               />
             </div>
           </div>
