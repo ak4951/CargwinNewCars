@@ -3,7 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Slider } from './ui/slider';
-import { X, SlidersHorizontal } from 'lucide-react';
+import { X, SlidersHorizontal, MapPin } from 'lucide-react';
+import { searchZipCodes } from '../utils/zipCodes';
 
 const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [], filteredCount = 0 }) => {
   const [filters, setFilters] = useState({
@@ -22,6 +23,8 @@ const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [], filteredCount
   
   const [detectedLocation, setDetectedLocation] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
+  const [zipSuggestions, setZipSuggestions] = useState([]);
+  const [showZipDropdown, setShowZipDropdown] = useState(false);
 
   // Watch filteredCount changes to update suggestions
   useEffect(() => {
@@ -109,6 +112,13 @@ const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [], filteredCount
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
     
+    // ZIP auto-complete
+    if (key === 'userZip') {
+      const results = searchZipCodes(value);
+      setZipSuggestions(results);
+      setShowZipDropdown(results.length > 0);
+    }
+    
     if (onFilterChange) {
       onFilterChange(newFilters);
       
@@ -119,6 +129,12 @@ const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [], filteredCount
         generateSuggestions(newFilters, 0);
       }, 100);
     }
+  };
+
+  const selectZip = (zipData) => {
+    handleChange('userZip', zipData.zip);
+    setDetectedLocation({ city: zipData.city, zip: zipData.zip });
+    setShowZipDropdown(false);
   };
 
   const handleClear = () => {
@@ -165,16 +181,41 @@ const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [], filteredCount
         )}
         
         {/* YOUR LOCATION - ПЕРВЫЙ */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 relative">
           <label className="text-sm font-medium mb-2 block">📍 Your ZIP Code</label>
           <input
             type="text"
             maxLength="5"
-            placeholder="90210"
+            placeholder="90210 or Los Angeles"
             value={filters.userZip}
             onChange={(e) => handleChange('userZip', e.target.value)}
+            onFocus={() => setShowZipDropdown(zipSuggestions.length > 0)}
             className="w-full p-2 border border-gray-300 rounded text-center font-mono text-lg"
           />
+          
+          {/* ZIP Auto-complete Dropdown */}
+          {showZipDropdown && zipSuggestions.length > 0 && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white border-2 border-blue-300 rounded-lg shadow-xl z-50 max-h-64 overflow-y-auto">
+              {zipSuggestions.map((item, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => selectZip(item)}
+                  className="w-full px-3 py-2 text-left hover:bg-blue-50 transition-colors flex items-center gap-2 border-b last:border-b-0"
+                >
+                  <MapPin className="w-4 h-4 text-blue-600" />
+                  <div>
+                    <div className="font-semibold text-sm text-gray-900">
+                      {item.zip} - {item.city}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {item.county} County
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+          
           {detectedLocation && (
             <p className="text-xs text-blue-700 mt-2 text-center">
               ✓ Detected: {detectedLocation.city}
