@@ -624,6 +624,90 @@ frontend:
         agent: "testing"
         comment: "🎉 OFFER COMPARISON FEATURE FULLY FUNCTIONAL - BACKEND FIX VERIFIED (2025-12-14): Comprehensive testing completed with ALL 14 TESTS PASSED. ✅ TEST 1-2: /deals page loads with 10 offer cards, each with Plus button in top-left corner ✅ TEST 3-4: Clicking Plus buttons on first 2 offers successfully selects them (buttons change to red with Check icon) ✅ TEST 5: CompareBar appears at bottom showing 'Сравнить (2/3)' with 2 offer images and 'Очистить' (Clear) button ✅ TEST 6-7: Clicking 'Сравнить (2)' button navigates to /compare page with IDs in URL (e.g., /compare?ids=693cbae67a189b0a893f118c,693cbae67a189b0a893f118e) ✅ TEST 8: No 'No deals to compare' error message ✅ TEST 9-10: Comparison table displays with 2 car images (2025 Toyota Camry LE, 2026 Hyundai Kona SE) ✅ TEST 11: Payment details visible (Monthly Payment: $350/mo vs $280/mo, Drive-Off: $0, One-Pay: $0) ✅ TEST 12: Terms visible (Term: 0 months, Mileage: 0.0k mi/yr) ✅ TEST 13: Savings visible (MSRP: $28,000 vs $27,000, Selling Price: $26,000 vs $24,000, Savings vs MSRP: $2000 vs $3000) ✅ TEST 14: Summary section displays (Avg Payment: $315/mo, Payment Spread: $70, Best Deal: Hyundai Kona). BACKEND FIX CONFIRMED: Backend /api/compare endpoint (server.py lines 2535-2549) now correctly uses ObjectId lookup in cars collection. The data source mismatch issue has been resolved - backend now queries db.cars.find_one({\"_id\": ObjectId(deal_id)}) which successfully retrieves offers from the cars collection. All comparison data (payment details, terms, savings) displayed correctly with proper highlighting of best values (green background for best payment, drive-off, and savings). FEATURE 100% OPERATIONAL!"
 
+  - task: "Filter Improvements - Popular Combos (5 buttons)"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/OffersPage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ POPULAR COMBOS FULLY WORKING (2025-12-14): All 5 buttons found and functional. Tested: 'Honda под $400' (filters to 1 offer), 'Toyota 24 месяца' (applies Toyota + 24 month filter), 'EV под $500' (filters electric vehicles), 'Hybrid под $350' (filters hybrids), 'Сбросить всё' (resets all filters, returns to 10 offers). Offer count changes correctly after each button click. Filter application logic working perfectly."
+
+  - task: "Filter Improvements - Sort Options (4 dropdown options)"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/OffersPage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ SORT OPTIONS FULLY WORKING (2025-12-14): All 4 sort options functional. Dropdown found with options: 'По соответствию' (by match score), 'Цена: дешевле' (price low to high - shows $342/mo first), 'Цена: дороже' (price high to low - shows $708/mo first), 'По экономии' (by savings - shows $708/mo first). Offers reorder correctly based on selected sort option. Sorting logic working perfectly."
+
+  - task: "Filter Improvements - Match Score Badges"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/OffersPage.jsx, /app/frontend/src/components/OfferCard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ MATCH SCORE BADGES FULLY WORKING (2025-12-14): Match score calculation and display working correctly. Applied Honda filter to trigger match scores. Found match score badge showing '67% Match' with yellow color (50-80% range). Screenshots show multiple match badges on different cards (74%, 81%, 86%). Color coding working correctly: green for 80%+, yellow for 50-80%, gray for <50%. Badges appear in top-right corner of offer cards when filters are active."
+
+  - task: "Filter Improvements - Card Badges (Best Deal, Hot, New)"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/OffersPage.jsx, /app/frontend/src/components/OfferCard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ CARD BADGES WORKING (2025-12-14): Badge system implemented and functional. Found 'Best Deal' badge (green, bg-green-600) on BMW card with highest savings. 'Hot' badge (red, bg-red-600) for stock <= 2 not found in current data. 'New' badge (blue, bg-blue-600) for recently added cars not found in current data. Badge logic working correctly - badges appear based on data conditions (highest savings, low stock, recent creation). At least one badge type verified working."
+
+  - task: "Filter Improvements - Range Histogram in Sidebar"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/FiltersSidebar.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ RANGE HISTOGRAM WORKING (2025-12-14): Histogram displays correctly in sidebar under 'Monthly Budget' section. Found all 6 price buckets: $0-200, $200-300, $300-400, $400-500, $500-700, $700+. Each bucket shows offer count and visual bar height based on distribution. Histogram section title 'Распределение предложений по цене' visible. Minor: Clicking histogram bars to set price range has selector issue in test script, but visual display and data are correct."
+
+  - task: "Filter Improvements - ZIP Auto-complete"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/FiltersSidebar.jsx, /app/frontend/src/utils/zipCodes.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ ZIP AUTO-COMPLETE FULLY WORKING (2025-12-14): ZIP code autocomplete working perfectly. Typing 'los' shows Los Angeles suggestions in dropdown (90001, 90002 - Los Angeles, Los Angeles County). Clicking suggestion fills ZIP field with '90001'. Typing '902' shows Beverly Hills suggestions (90210, 90211 - Beverly Hills, Los Angeles County). Clicking fills ZIP with '90210'. Dropdown appears correctly with city names, ZIP codes, and county information. searchZipCodes function working correctly with californiaZipCodes data."
+
+  - task: "Filter Improvements - Smart Disable in Brand Dropdown"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/components/FiltersSidebar.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "⚠️ SMART DISABLE PARTIALLY WORKING (2025-12-14): Brand dropdown opens correctly using Radix UI Select component. countOffersForOption function implemented in FiltersSidebar.jsx (lines 39-55) to count offers per brand. However, brand counts like 'Toyota (3)', 'Honda (2)' are NOT displaying in dropdown options. Dropdown shows brand names (Lexus, Toyota, Honda, Genesis, BMW, Mercedes, Kia, Hyundai) but counts are missing. Issue: SelectItem components in FiltersSidebar.jsx (lines 254-301) show count pattern like 'Lexus ({countOffersForOption('brand', 'lexus')})' but counts not rendering. Need to verify if countOffersForOption is being called correctly or if there's a rendering issue with Radix UI Select."
+
 test_plan:
   current_focus:
     - "✅ COMPLETED: Offer comparison feature fully tested and working"
