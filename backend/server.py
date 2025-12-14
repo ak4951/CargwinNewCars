@@ -3023,6 +3023,36 @@ async def get_all_articles_endpoint(category: str = None, limit: int = 100):
             query["category"] = category
         
         articles = await db.articles.find(
+
+
+@api_router.post("/newsletter/subscribe")
+async def newsletter_subscribe(data: dict):
+    """Subscribe to newsletter"""
+    try:
+        email = data.get('email')
+        if not email:
+            raise HTTPException(status_code=400, detail="Email required")
+        
+        # Save to newsletter collection
+        await db.newsletter.update_one(
+            {"email": email},
+            {
+                "$set": {
+                    "email": email,
+                    "subscribed_at": datetime.now(timezone.utc).isoformat(),
+                    "source": "exit_intent",
+                    "active": True
+                }
+            },
+            upsert=True
+        )
+        
+        return {"ok": True, "message": "Subscribed successfully"}
+        
+    except Exception as e:
+        logger.error(f"Newsletter subscription error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
             query,
             {"_id": 0}
         ).sort("created_at", -1).limit(limit).to_list(limit)

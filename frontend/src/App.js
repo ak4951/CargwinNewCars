@@ -23,6 +23,12 @@ import Footer from "./components/Footer";
 import FOMOTicker from "./components/FOMOTicker";
 import LiveChatWidget from "./components/LiveChatWidget";
 import CargwinGPT from "./components/CargwinGPT";
+import FounderStory from "./components/FounderStory";
+import InteractiveSavingsCalculator from "./components/InteractiveSavingsCalculator";
+import VisualPriceComparison from "./components/VisualPriceComparison";
+import CarMatchQuiz from "./components/CarMatchQuiz";
+import ExitIntentModal from "./components/ExitIntentModal";
+import StickyCTABar from "./components/StickyCTABar";
 import CarDetail from "./pages/CarDetail";
 import PreviewLot from "./pages/PreviewLot";
 import Auth from "./pages/Auth";
@@ -116,16 +122,44 @@ const Home = () => {
       
       <Header />
       <main role="main">
+        {/* 1. Hero - First impression */}
         <Hero />
+        
+        {/* 2. Interactive Calculator - User sees THEIR savings */}
+        <InteractiveSavingsCalculator />
+        
+        {/* 3. Founder Story - Philosophy & Pain Points */}
+        <FounderStory />
+        
+        {/* 4. Visual Price Comparison - Hard numbers */}
+        <VisualPriceComparison />
+        
+        {/* 5. Featured Deals - Show what's available */}
         <FeaturedDealsSection />
+        
+        {/* 6. Quiz - Personalization & engagement */}
+        <CarMatchQuiz />
+        
+        {/* 7. How It Works - Process clarity */}
         <HowItWorks />
-        <WhyHunterLease />
+        
+        {/* 8. Trust signals */}
         <TrustFAQ />
+        
+        {/* 9. Social proof - Video reviews */}
         <Reviews />
+        
+        {/* 10. FAQ - Remove objections */}
         <FAQ />
+        
+        {/* 11. Final CTA */}
         <FinalCTA />
       </main>
       <Footer />
+      
+      {/* Conversion Boosters */}
+      <StickyCTABar />
+      <ExitIntentModal />
       <CargwinGPT />
       
       {/* Add bottom padding */}
