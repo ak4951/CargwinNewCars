@@ -99,7 +99,17 @@ const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [] }) => {
   const handleChange = (key, value) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
-    if (onFilterChange) onFilterChange(newFilters);
+    
+    if (onFilterChange) {
+      onFilterChange(newFilters);
+      
+      // Generate suggestions after filter change
+      setTimeout(() => {
+        // This will be called after parent updates filteredOffers
+        // For now, just clear suggestions
+        generateSuggestions(newFilters, 0);
+      }, 100);
+    }
   };
 
   const handleClear = () => {
@@ -115,6 +125,8 @@ const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [] }) => {
       fuelType: 'all'
     };
     setFilters(cleared);
+    setSuggestions([]);
+    
     if (onClear) onClear();
   };
 
@@ -132,6 +144,17 @@ const FiltersSidebar = ({ onFilterChange, onClear, allOffers = [] }) => {
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
+        
+        {/* Smart Suggestions */}
+        {suggestions.length > 0 && (
+          <div className="bg-yellow-50 border border-yellow-200 rounded p-3 space-y-2">
+            <div className="font-semibold text-sm text-yellow-800">💡 Suggestions:</div>
+            {suggestions.map((tip, i) => (
+              <div key={i} className="text-xs text-yellow-700">{tip}</div>
+            ))}
+          </div>
+        )}
+        
         {/* YOUR LOCATION - ПЕРВЫЙ */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <label className="text-sm font-medium mb-2 block">📍 Your ZIP Code</label>
