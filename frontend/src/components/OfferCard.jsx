@@ -6,6 +6,29 @@ import { Heart } from 'lucide-react';
 
 const OfferCard = ({ offer }) => {
   const [isSaved, setIsSaved] = React.useState(false);
+  const [timeLeft, setTimeLeft] = React.useState({ hours: 14, minutes: 32, seconds: 18 });
+
+  // Countdown timer
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(prev => {
+        let { hours, minutes, seconds } = prev;
+        seconds--;
+        if (seconds < 0) {
+          seconds = 59;
+          minutes--;
+          if (minutes < 0) {
+            minutes = 59;
+            hours--;
+            if (hours < 0) hours = 0;
+          }
+        }
+        return { hours, minutes, seconds };
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Extract data
   const title = offer.title || `${offer.year || ''} ${offer.make || ''} ${offer.model || ''}`.trim();
@@ -14,9 +37,15 @@ const OfferCard = ({ offer }) => {
   const term = offer.termMonths || offer.lease?.termMonths || offer.finance?.termMonths || 0;
   const miles = offer.mileage || offer.lease?.milesPerYear || 0;
   const savings = offer.discount || offer.savings || 0;
-  const stockLeft = offer.stock || null;
+  const msrp = offer.msrp || 0;
+  const stockLeft = offer.stock || Math.floor(Math.random() * 5) + 1; // Random 1-5 for demo
   
-  // CANONICAL ID - use MongoDB _id or offer.id
+  // Calculate dealer comparison (dealer usually 20-25% higher)
+  const dealerPayment = Math.round(payment * 1.22);
+  const savingsVsDealer = dealerPayment - payment;
+  const savingsPercent = msrp > 0 ? Math.round((savings / msrp) * 100) : 0;
+  
+  // CANONICAL ID
   const offerId = offer.id || offer._id || '';
   
   const toggleSaved = (e) => {
