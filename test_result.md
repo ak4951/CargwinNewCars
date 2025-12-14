@@ -609,12 +609,24 @@ frontend:
         agent: "testing"
         comment: "🎯 COMPREHENSIVE E2E TESTING COMPLETED (2025-12-01): Tested all 5 major sections requested. ✅ TEST 1 - HOMEPAGE (/): Hero section visible with 'Instant Best Lease Deals' title, Featured Deals section showing exactly 3 deals (top 3 by payment: 2x Toyota Camry, 1x Honda Accord), Why Hunter.Lease section with 4 feature cards (Real Bank Programs, Transparent Calculations, Big Savings, Works Nationwide), Final CTA section with 'Calculate My Deal' and 'Talk to Expert' buttons, Navigation with 9 links working. ✅ TEST 2 - CALCULATOR (/calculator): Page title 'Hunter.Lease PRO Calculator', Brand dropdown working with Toyota and Honda options visible, Model dropdown functional (Camry selected after Toyota), Input fields for MSRP ($35,000), Selling Price ($33,000), Term (36 months), Annual Mileage (10,000), Tax Rate (9.25%), Down Payment ($0), Zero Drive-Off checkbox, 'Calculate Lease' button working, Results displayed showing Monthly Payment ($373.24/mo), Drive-Off ($858.24), One-Pay ($12,361.64), Program Details (MF: 0.00191, Residual: 75%, Incentives: $0, Savings: $3,321), Telegram CTA button 'Get this deal via Telegram' working. ✅ TEST 3 - DEALS PAGE (/deals): Page title 'Featured Fleet Deals', Grid showing 5 deals (3x Toyota Camry LE/SE/XLE/Hybrid, 1x Honda Accord Sport), Each card displays brand/model/trim, monthly payment ($373-$407/mo), term (36 months), mileage (10k-12k mi/yr), drive-off ($858-$972), savings ($2,781-$3,444), stock count (2-5 units), 'View Deal →' buttons working. ✅ TEST 4 - DEAL DETAILS (/deal/{id}): Hero image displayed (Toyota Camry LE), Payment Summary card showing Monthly Payment ($373/mo incl. tax), Drive-Off ($858), One-Pay ($12,362), Program Details showing MSRP ($35,000), Selling Price ($33,000), Money Factor (0.00191), Residual (75.0%), Total Savings ($3,321), 2 CTA buttons working (Telegram 'Get this deal via Telegram' + Calculator 'Calculate custom configuration'), Back button '← Back to all deals' working correctly. ✅ TEST 5 - ADMIN PANEL (/admin): Login page accessible with email input field, 'Send Magic Link' button, Demo credentials displayed (admin@cargwin.com - Администратор, editor@cargwin.com - Редактор, viewer@cargwin.com - Просмотр), Magic link authentication system (no password field), Featured Deals/Analytics/Settings pages accessible but require authentication. ⚠️ MINOR ISSUES: Only Google Analytics requests failing (expected in headless browser testing). ✅ ERROR CHECKING: No console errors detected, No failed API calls to backend, All images loading correctly, All navigation working. ALL 5 TESTS PASSED - APPLICATION FULLY FUNCTIONAL!"
 
+  - task: "Offer Comparison Feature on /deals Page"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/pages/OffersPage.jsx, /app/frontend/src/components/CompareBar.jsx, /app/frontend/src/components/OfferCard.jsx, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "🔴 CRITICAL BUG FOUND - DATA SOURCE MISMATCH: Tested offer comparison feature on /deals page. FRONTEND WORKING: ✅ Compare buttons (Plus icons) visible on all 10 offer cards in top-left corner ✅ Clicking compare buttons successfully selects offers (button changes to red with Check icon) ✅ CompareBar appears at bottom after selecting 2 offers ✅ CompareBar shows correct text 'Сравнить (2/3):' with 2 offer images ✅ 'Очистить' (Clear) button present ✅ 'Сравнить (2)' button enabled and clickable ✅ Successfully navigates to /compare page with IDs in URL (e.g., /compare?ids=693cbae67a189b0a893f118c,693cbae67a189b0a893f118d). BACKEND ISSUE: ❌ Compare page shows 'No deals to compare' message ❌ Backend API POST /api/compare returns {\"detail\": \"No deals found\"} ❌ ROOT CAUSE: Data source mismatch - OffersPage.jsx fetches from /api/cars endpoint (cars collection) but /api/compare endpoint expects IDs from /api/deals/list endpoint (featured_deals collection). The IDs exist in cars collection but compare endpoint only searches featured_deals collection. SOLUTION NEEDED: Either (1) Update OffersPage.jsx to fetch from /api/deals/list instead of /api/cars, OR (2) Update /api/compare endpoint to work with cars collection IDs. Frontend compare UI is 100% functional, only backend data integration is broken."
+
 test_plan:
   current_focus:
-    - "✅ COMPLETED: Add Competitor Prices Demo to RX350 Premium - Price comparison feature ready"
+    - "🔴 CRITICAL: Fix offer comparison data source mismatch - OffersPage uses /api/cars but compare endpoint expects /api/deals/list"
   stuck_tasks: []
   test_all: false
-  test_priority: "competitor_prices_demo_completed"
+  test_priority: "high_first"
 
 agent_communication:
   - agent: "main"
