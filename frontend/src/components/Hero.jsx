@@ -1,140 +1,168 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
-import { ArrowRight, Eye, TrendingUp, Clock, Package } from 'lucide-react';
-import LiveSearch from './LiveSearch';
+import { Eye, TrendingUp, Clock, Search } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 const Hero = () => {
   const [fomoStats, setFomoStats] = useState({
     viewing: 182,
     expiring: 27,
-    unitsLeft: 2,
     timeLeft: { hours: 3, minutes: 22 }
   });
   const navigate = useNavigate();
+  
+  const [quickFilters, setQuickFilters] = useState({
+    budget: '',
+    brand: '',
+    zip: ''
+  });
 
-  // Auto-update FOMO stats every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setFomoStats(prev => ({
         viewing: Math.floor(Math.random() * 50) + 150,
         expiring: Math.floor(Math.random() * 10) + 20,
-        unitsLeft: Math.floor(Math.random() * 5) + 1,
         timeLeft: { hours: 3, minutes: Math.floor(Math.random() * 60) }
       }));
     }, 10000);
-
     return () => clearInterval(interval);
   }, []);
+  
+  const handleQuickSearch = () => {
+    let params = [];
+    if (quickFilters.budget) params.push(`budgetMax=${quickFilters.budget}`);
+    if (quickFilters.brand) params.push(`brand=${quickFilters.brand}`);
+    if (quickFilters.zip) params.push(`zip=${quickFilters.zip}`);
+    navigate(`/deals?${params.join('&')}`);
+  };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Full-Screen Car Image */}
+    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage: "url('https://images.pexels.com/photos/3972755/pexels-photo-3972755.jpeg?auto=compress&cs=tinysrgb&w=1920')",
         }}
       >
-        {/* Dark overlay 20% */}
-        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-black/30"></div>
       </div>
 
-      {/* Content - Centered */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 text-center text-white py-20">
+      {/* Compact FOMO - Top Right */}
+      <div className="hidden lg:block absolute top-20 right-6 z-20 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg px-4 py-3 w-44">
+        <div className="space-y-2 text-xs">
+          <div className="flex items-center gap-2">
+            <Eye className="w-3 h-3 text-blue-600" />
+            <div>
+              <div className="font-bold text-blue-600">{fomoStats.viewing}</div>
+              <div className="text-gray-600">viewing now</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <TrendingUp className="w-3 h-3 text-red-600" />
+            <div>
+              <div className="font-bold text-red-600">{fomoStats.expiring}</div>
+              <div className="text-gray-600">expiring today</div>
+            </div>
+          </div>
+          <div className="border-t pt-2">
+            <Clock className="w-3 h-3 text-orange-600 inline mr-1" />
+            <span className="font-bold text-orange-600">{fomoStats.timeLeft.hours}h {fomoStats.timeLeft.minutes}m</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 max-w-5xl mx-auto px-4 text-center text-white pt-12 pb-14">
         
-        {/* Headline - Responsive */}
-        <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
-          Exclusive Fleet Pricing on New Cars<br />
-          <span className="text-red-500">Save up to $7,000</span>
+        {/* Headline - Tighter */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 leading-tight">
+          Stop Overpaying.<br />
+          Get Fleet Pricing.
         </h1>
 
         {/* Subheadline */}
-        <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 text-gray-100 px-4">
-          Hunter.Lease — the best lease deals in California
+        <p className="text-lg sm:text-xl md:text-2xl mb-6 text-gray-100 font-semibold">
+          Save $3,000-7,000 vs Traditional Dealers
         </p>
 
-        {/* Search Bar */}
-        <div className="max-w-2xl mx-auto mb-8 px-4">
-          <LiveSearch placeholder="Поиск автомобиля по марке или модели..." />
+        {/* Quick Filters - Compact */}
+        <div className="max-w-4xl mx-auto mb-5">
+          <div className="bg-white/95 backdrop-blur-md rounded-xl p-4 shadow-2xl">
+            <div className="text-gray-900 font-semibold mb-3 text-base">
+              Quick Find Your Perfect Deal:
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <Select value={quickFilters.budget} onValueChange={(v) => setQuickFilters({...quickFilters, budget: v})}>
+                <SelectTrigger className="h-11 bg-white">
+                  <SelectValue placeholder="Monthly Budget" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="300">Under $300</SelectItem>
+                  <SelectItem value="400">Under $400</SelectItem>
+                  <SelectItem value="500">Under $500</SelectItem>
+                  <SelectItem value="700">$500-700</SelectItem>
+                  <SelectItem value="900">Luxury ($700+)</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select value={quickFilters.brand} onValueChange={(v) => setQuickFilters({...quickFilters, brand: v})}>
+                <SelectTrigger className="h-11 bg-white">
+                  <SelectValue placeholder="Brand" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="toyota">Toyota</SelectItem>
+                  <SelectItem value="honda">Honda</SelectItem>
+                  <SelectItem value="lexus">Lexus</SelectItem>
+                  <SelectItem value="bmw">BMW</SelectItem>
+                  <SelectItem value="tesla">Tesla</SelectItem>
+                  <SelectItem value="mercedes">Mercedes-Benz</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <input
+                type="text"
+                maxLength="5"
+                placeholder="Your ZIP Code"
+                value={quickFilters.zip}
+                onChange={(e) => setQuickFilters({...quickFilters, zip: e.target.value.replace(/\D/g, '')})}
+                className="h-11 px-3 rounded-lg border border-gray-300 focus:border-red-600 focus:outline-none text-gray-900"
+              />
+
+              <Button
+                onClick={handleQuickSearch}
+                className="h-11 bg-red-600 hover:bg-red-700 text-white font-bold"
+              >
+                <Search className="w-4 h-4 mr-2" />
+                Find Deals
+              </Button>
+            </div>
+            
+            <div className="text-center mt-3">
+              <button
+                onClick={() => navigate('/deals')}
+                className="text-xs text-gray-600 hover:text-red-600 underline"
+              >
+                or browse all 15 available deals
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* BIG CTA */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6 sm:mb-8 px-4">
-          <Button
-            onClick={() => navigate('/deals')}
-            className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-8 sm:px-12 py-6 sm:py-8 text-xl sm:text-2xl font-bold rounded-2xl shadow-2xl transform hover:scale-105 transition-transform"
-          >
-            Browse Deals <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8 inline ml-2" />
-          </Button>
-          
-          <Button
-            onClick={() => navigate('/calculator')}
-            variant="outline"
-            className="w-full sm:w-auto bg-white/10 border-2 border-white text-white hover:bg-white/20 px-8 sm:px-10 py-6 sm:py-8 text-lg sm:text-xl font-bold rounded-2xl backdrop-blur-sm"
-          >
-            Calculate Payment
-          </Button>
-        </div>
-
-        {/* Trust Icons - Responsive */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm px-4">
-          <div className="flex items-center gap-2">
+        {/* Trust Pills - Compact */}
+        <div className="flex flex-wrap items-center justify-center gap-3 text-xs">
+          <div className="flex items-center gap-1.5 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
             <span className="text-green-400">✓</span>
-            <span>Same prices rental companies pay</span>
+            <span>Fleet Pricing</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
             <span className="text-green-400">✓</span>
-            <span>All credit tiers welcome</span>
+            <span>Zero Markup</span>
           </div>
-          <div className="hidden sm:flex items-center gap-2">
+          <div className="flex items-center gap-1.5 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
             <span className="text-green-400">✓</span>
-            <span>Free delivery</span>
-          </div>
-        </div>
-      </div>
-
-      {/* FOMO Block - Desktop Only */}
-      <div className="hidden lg:block absolute top-8 right-8 bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-2xl max-w-xs z-20">
-        <div className="space-y-4 text-gray-900">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <Eye className="w-5 h-5 text-blue-600" />
-            </div>
-            <div>
-              <div className="text-2xl font-bold">{fomoStats.viewing}</div>
-              <div className="text-xs text-gray-600">people viewing now</div>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-red-600" />
-            </div>
-            <div>
-              <div className="text-2xl font-bold">{fomoStats.expiring}</div>
-              <div className="text-xs text-gray-600">deals expiring today</div>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-              <Package className="w-5 h-5 text-orange-600" />
-            </div>
-            <div>
-              <div className="text-2xl font-bold">{fomoStats.unitsLeft}</div>
-              <div className="text-xs text-gray-600">fleet units left</div>
-            </div>
-          </div>
-          
-          <div className="pt-4 border-t border-gray-200">
-            <div className="flex items-center gap-2 mb-2">
-              <Clock className="w-4 h-4 text-gray-600" />
-              <div className="text-xs text-gray-600 font-semibold">Deal cycle ends:</div>
-            </div>
-            <div className="text-3xl font-bold text-red-600">
-              {fomoStats.timeLeft.hours}h {fomoStats.timeLeft.minutes}m
-            </div>
+            <span>Free Delivery</span>
           </div>
         </div>
       </div>

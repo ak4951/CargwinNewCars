@@ -29,6 +29,7 @@ import VisualPriceComparison from "./components/VisualPriceComparison";
 import CarMatchQuiz from "./components/CarMatchQuiz";
 import ExitIntentModal from "./components/ExitIntentModal";
 import StickyCTABar from "./components/StickyCTABar";
+import GuaranteesBar from "./components/GuaranteesBar";
 import CarDetail from "./pages/CarDetail";
 import PreviewLot from "./pages/PreviewLot";
 import Auth from "./pages/Auth";
@@ -123,6 +124,7 @@ const Home = () => {
       <Header />
       <main role="main">
         <Hero />
+        <GuaranteesBar />
         <InteractiveSavingsCalculator />
         <FounderStory />
         <VisualPriceComparison />

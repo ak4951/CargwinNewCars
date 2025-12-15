@@ -26,7 +26,6 @@ import AdminNotifications from './AdminNotifications';
 import AIGenerator from './AIGenerator';
 import AdminMedia from './AdminMedia';
 import AdminMultiSync from './AdminMultiSync';
-import ScraperControl from './ScraperControl';
 import OffersManagement from './OffersManagement';
 import OfferEditor from './OfferEditor';
 import VideoReviewsManager from './VideoReviewsManager';
@@ -74,7 +73,6 @@ const AdminDashboard = () => {
         <Route path="ai-generator" element={<AIGenerator />} />
         <Route path="media" element={<AdminMedia />} />
         <Route path="multi-sync" element={<AdminMultiSync />} />
-        <Route path="scraper" element={<ScraperControl />} />
         <Route path="offers" element={<OffersManagement />} />
         <Route path="offers/new" element={<OfferEditor />} />
         <Route path="offers/:id/edit" element={<OfferEditor />} />
