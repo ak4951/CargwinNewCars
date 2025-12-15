@@ -2633,6 +2633,8 @@ async def get_public_video_reviews_endpoint():
         return reviews
         
     except Exception as e:
+        logger.error(f"Error fetching public video reviews: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # ==========================================
