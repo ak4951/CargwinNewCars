@@ -2763,6 +2763,20 @@ async def get_seo_page_public(slug: str):
         
         if not page:
             raise HTTPException(status_code=404, detail="Page not found")
+        
+        # Increment views
+        await db.seo_pages.update_one(
+            {"slug": slug},
+            {"$inc": {"views": 1}}
+        )
+        
+        return page
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching SEO page: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # ==========================================
