@@ -140,13 +140,13 @@ const Reviews = () => {
               className="border-pink-600 text-pink-600 hover:bg-pink-50"
             >
               <a 
-                href="https://www.instagram.com/" 
+                href="https://www.instagram.com/hunterlease/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2"
               >
                 <Instagram className="w-5 h-5" />
-                @hunter.lease
+                @hunterlease
                 <ExternalLink className="w-4 h-4" />
               </a>
             </Button>
