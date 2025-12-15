@@ -30,6 +30,8 @@ import CarMatchQuiz from "./components/CarMatchQuiz";
 import ExitIntentModal from "./components/ExitIntentModal";
 import StickyCTABar from "./components/StickyCTABar";
 import GuaranteesBar from "./components/GuaranteesBar";
+import DealerTricksSection from "./components/DealerTricksSection";
+import WhyDealersWorkWithUs from "./components/WhyDealersWorkWithUs";
 import CarDetail from "./pages/CarDetail";
 import PreviewLot from "./pages/PreviewLot";
 import Auth from "./pages/Auth";
@@ -123,16 +125,35 @@ const Home = () => {
       
       <Header />
       <main role="main">
+        {/* 1. Hero + FOMO + Quick Find - ЕДИНЫЙ БЛОК */}
         <Hero />
         <GuaranteesBar />
-        <InteractiveSavingsCalculator />
-        <FounderStory />
+        
+        {/* 2. See The Difference - СРАЗУ ПОСЛЕ HERO */}
         <VisualPriceComparison />
-        <FeaturedDealsSection />
+        
+        {/* 3. 10 Dealer Tricks */}
+        <DealerTricksSection />
+        
+        {/* 4. But Why Dealers Work With You */}
+        <WhyDealersWorkWithUs />
+        
+        {/* 5. Founder Story */}
+        <FounderStory />
+        
+        {/* 6. Calculator - ПОСЛЕ философии */}
+        <InteractiveSavingsCalculator />
+        
+        {/* 7. Quiz */}
         <CarMatchQuiz />
+        
+        {/* 8. How It Works */}
         <HowItWorks />
-        <TrustFAQ />
+        
+        {/* 9. Reviews */}
         <Reviews />
+        
+        {/* 10. FAQ + CTA */}
         <FAQ />
         <FinalCTA />
       </main>

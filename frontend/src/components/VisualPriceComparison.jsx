@@ -13,7 +13,9 @@ const VisualPriceComparison = () => {
     <section className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">See The Difference</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+            Here's Why Our Prices Are Lower Than Anywhere Else in California
+          </h2>
           <p className="text-lg text-gray-600">Real numbers. Real savings. Real transparency.</p>
         </div>
 
