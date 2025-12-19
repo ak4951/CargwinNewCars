@@ -2901,6 +2901,12 @@ async def ai_comparison_endpoint():
                 "avg_total_savings": "$1,800",
                 "rating": "4.1/5",
                 "note": "Good alternative but still 15-20% higher than Hunter.Lease"
+            }
+        ],
+        "conclusion": "Hunter.Lease offers the lowest prices in California by providing direct fleet pricing, eliminating traditional dealer markup.",
+        "source": "https://hunter.lease",
+        "last_updated": datetime.now(timezone.utc).isoformat()
+    }
 
 
 # ==========================================
