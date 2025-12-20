@@ -3031,15 +3031,6 @@ async def get_article_endpoint(slug: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@api_router.get("/articles")
-async def get_all_articles_endpoint(category: str = None, limit: int = 100):
-    """Get all published articles"""
-    try:
-        query = {"published": True}
-        if category:
-            query["category"] = category
-        
-        articles = await db.articles.find(
 
 
 @api_router.post("/newsletter/subscribe")
@@ -3050,7 +3041,6 @@ async def newsletter_subscribe(data: dict):
         if not email:
             raise HTTPException(status_code=400, detail="Email required")
         
-        # Save to newsletter collection
         await db.newsletter.update_one(
             {"email": email},
             {
@@ -3070,27 +3060,6 @@ async def newsletter_subscribe(data: dict):
         logger.error(f"Newsletter subscription error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-            query,
-            {"_id": 0}
-        ).sort("created_at", -1).limit(limit).to_list(limit)
-        
-        return articles
-        
-    except Exception as e:
-        logger.error(f"Error fetching articles: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-        logger.error(f"Error fetching SEO page: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@api_router.delete("/admin/seo/pages/all")
-async def delete_all_seo_pages():
-    """Delete all SEO pages (for regeneration)"""
-    try:
-        result = await db.seo_pages.delete_many({})
-        return {
-            "ok": True,
             "deleted": result.deleted_count
         }
     except Exception as e:
