@@ -3009,11 +3009,6 @@ async def generate_offers_sitemap():
         logger.error(f"Offers sitemap error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-            }
-        ],
-        "conclusion": "Hunter.Lease offers the lowest prices in California by providing direct fleet pricing, eliminating traditional dealer markup.",
-        "source": "https://hunter.lease",
-
 
 @api_router.get("/article/{slug}")
 async def get_article_endpoint(slug: str):
@@ -3086,7 +3081,6 @@ async def newsletter_subscribe(data: dict):
         raise HTTPException(status_code=500, detail=str(e))
 
         "last_updated": datetime.now(timezone.utc).isoformat()
-    }
 
         
         # Increment views
