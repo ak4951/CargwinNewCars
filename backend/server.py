@@ -3060,44 +3060,6 @@ async def newsletter_subscribe(data: dict):
         logger.error(f"Newsletter subscription error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-            "deleted": result.deleted_count
-        }
-    except Exception as e:
-        logger.error(f"Error deleting SEO pages: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-        logger.error(f"Error fetching public video reviews: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-# ==========================================
-# COMPARISON ENGINE (PHASE 10)
-# ==========================================
-
-@api_router.post("/compare")
-async def compare_deals_endpoint(request: dict, req: Request):
-    """
-    Compare up to 3 deals side-by-side
-    Rate limited: 10 requests per 10 seconds per IP
-    
-    Request: {"deal_ids": ["id1", "id2", "id3"]}
-    Returns: Comparison data with best value indicators
-    """
-    try:
-        from comparison_engine import compare_deals, get_comparison_summary
-        from rate_limiter import get_rate_limiter
-        
-        # Rate limiting
-        client_ip = req.client.host
-        limiter = get_rate_limiter()
-        
-        if not limiter.is_allowed(client_ip, max_requests=10, window_seconds=10):
-            raise HTTPException(
-                status_code=429,
-                detail="Too many comparison requests. Please slow down."
-            )
-        
-        # Extract deal_ids from request
         deal_ids = request.get("deal_ids", [])
         
         # Validate

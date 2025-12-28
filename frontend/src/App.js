@@ -59,6 +59,7 @@ import Compare from "./pages/Compare";
 import OfferDetail from "./pages/OfferDetail";
 import BrokerApplication from "./pages/BrokerApplication";
 import MyFavorites from "./pages/MyFavorites";
+import OfferV2 from "./pages/OfferV2";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminLogin from "./pages/admin/AdminLogin";
 import LeasePrograms from "./pages/admin/LeasePrograms";
@@ -207,6 +208,9 @@ function App() {
                   <Route path="/my-favorites" element={<MyFavorites />} />
                   <Route path="/broker-application" element={<BrokerApplication />} />
                   <Route path="/preview/:token" element={<PreviewLot />} />
+                  
+                  {/* Test route for improved offer page */}
+                  <Route path="/offer-v2/:carId" element={<OfferV2 />} />
                   
                   {/* SEO Pages - Catch all deals-* routes */}
                   <Route path="/deals-*" element={<SEOPage />} />

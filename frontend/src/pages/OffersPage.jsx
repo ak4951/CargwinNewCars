@@ -30,13 +30,17 @@ const OffersPage = () => {
         throw new Error('Backend URL not configured');
       }
 
+      console.log('[DEALS] Fetching from:', `${BACKEND_URL}/api/cars`);
       const response = await fetch(`${BACKEND_URL}/api/cars`);
+      
+      console.log('[DEALS] Response status:', response.status);
       
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
 
       const data = await response.json();
+      console.log('[DEALS] Received:', data.length, 'offers');
       
       // Ensure data is array
       const offersArray = Array.isArray(data) ? data : [];
@@ -45,11 +49,13 @@ const OffersPage = () => {
       setFilteredOffers(offersArray);
       setError(null);
     } catch (error) {
-      console.error('Failed to fetch offers:', error);
+      console.error('[DEALS] Fetch failed:', error);
       setError(error.message);
+      // CRITICAL: Set empty arrays, NOT undefined
       setOffers([]);
       setFilteredOffers([]);
     } finally {
+      // CRITICAL: Always stop loading
       setLoading(false);
     }
   };
