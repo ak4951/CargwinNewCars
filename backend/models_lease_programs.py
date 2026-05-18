@@ -116,6 +116,7 @@ class LeaseCalculationResult(BaseModel):
 
     tax_rate: float
     tax_amount: float
+    upfront_tax: float
     monthly_payment_with_tax: float
 
     down_payment: float
