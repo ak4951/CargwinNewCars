@@ -3,20 +3,28 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
-import { Trash2, Eye, Plus } from 'lucide-react';
+import { Input } from '../../components/ui/input';
+import { Trash2, Eye, Plus, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
 export default function FeaturedDealsAdmin() {
   const [deals, setDeals] = useState([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const limit = 10;
   const navigate = useNavigate();
 
   const loadDeals = async () => {
+    setLoading(true);
     try {
-      const response = await fetch(`${BACKEND_URL}/api/deals/list?limit=100`);
+      const skip = (page - 1) * limit;
+      const response = await fetch(`${BACKEND_URL}/api/deals/list?limit=${limit}&skip=${skip}&search=${encodeURIComponent(search)}`);
       const data = await response.json();
       setDeals(data.deals || []);
+      setTotal(data.total || 0);
     } catch (err) {
       console.error('Error loading deals:', err);
     } finally {
@@ -26,7 +34,7 @@ export default function FeaturedDealsAdmin() {
 
   useEffect(() => {
     loadDeals();
-  }, []);
+  }, [page, search]);
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this deal?')) return;
@@ -44,6 +52,8 @@ export default function FeaturedDealsAdmin() {
     }
   };
 
+  const totalPages = Math.ceil(total / limit);
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -60,16 +70,55 @@ export default function FeaturedDealsAdmin() {
         </Button>
       </div>
 
+      <div className="flex gap-4 items-center">
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Input
+            placeholder="Search deals (make, model, year)..."
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1); // Reset to first page on search
+            }}
+            className="pl-10"
+          />
+        </div>
+        <div className="text-sm text-gray-500">
+          Showing {deals.length} of {total} deals
+        </div>
+      </div>
+
       <Card>
-        <CardHeader>
-          <CardTitle>Deals ({deals.length})</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>Deals List</CardTitle>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page === 1}
+              onClick={() => setPage(p => p - 1)}
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </Button>
+            <span className="flex items-center px-2 text-sm">
+              Page {page} of {totalPages || 1}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page >= totalPages}
+              onClick={() => setPage(p => p + 1)}
+            >
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           {loading ? (
             <div className="text-center py-12">Loading...</div>
           ) : deals.length === 0 ? (
             <div className="text-center py-12 text-gray-500">
-              No deals created yet
+              No deals found
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -86,7 +135,7 @@ export default function FeaturedDealsAdmin() {
                 </thead>
                 <tbody className="divide-y">
                   {deals.map(deal => (
-                    <tr key={deal.id} className="hover:bg-gray-50">
+                    <tr key={deal._id || deal.id} className="hover:bg-gray-50">
                       <td className="px-4 py-3">
                         <div className="font-semibold">
                           {deal.year} {deal.brand} {deal.model}
@@ -102,16 +151,16 @@ export default function FeaturedDealsAdmin() {
                         ${(deal.calculated_driveoff || 0).toFixed(0)}
                       </td>
                       <td className="px-4 py-3">
-                        <Badge variant={deal.stock_count > 0 ? 'default' : 'secondary'}>
-                          {deal.stock_count || 0}
+                        <Badge variant={deal.is_active ? 'default' : 'secondary'}>
+                          {deal.is_active ? 'Active' : 'Draft'}
                         </Badge>
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-500">
-                        {new Date(deal.created_at).toLocaleDateString()}
+                        {deal.created_at ? new Date(deal.created_at).toLocaleDateString() : 'N/A'}
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex justify-end gap-2">
-                          <Link to={`/deal/${deal.id}`} target="_blank">
+                          <Link to={`/deal/${deal._id || deal.id}`} target="_blank">
                             <Button size="sm" variant="outline">
                               <Eye className="w-4 h-4" />
                             </Button>
@@ -119,7 +168,7 @@ export default function FeaturedDealsAdmin() {
                           <Button
                             size="sm"
                             variant="destructive"
-                            onClick={() => handleDelete(deal.id)}
+                            onClick={() => handleDelete(deal._id || deal.id)}
                           >
                             <Trash2 className="w-4 h-4" />
                           </Button>

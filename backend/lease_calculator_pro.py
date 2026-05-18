@@ -91,6 +91,8 @@ def calculate_lease_pro(
     request: LeaseCalculationRequest,
     parsed_program: Optional[Dict[str, Any]] = None
 ) -> LeaseCalculationResult:
+    from config import get_settings
+    settings = get_settings()
     """
     Calculate detailed lease payment breakdown
 
@@ -157,7 +159,7 @@ def calculate_lease_pro(
 
     # 5. Fees
     acquisition_fee = request.acquisition_fee
-    doc_fee = request.doc_fee
+    doc_fee = request.doc_fee if request.doc_fee is not None else settings.CA_DOC_FEE_MAX
     registration_fee = request.registration_fee
     other_fees = request.other_fees
 
