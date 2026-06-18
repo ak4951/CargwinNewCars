@@ -67,7 +67,7 @@ class LeaseCalculationRequest(BaseModel):
     # Taxes & fees
     tax_rate: float = 0.0925  # default 9.25% (California)
     acquisition_fee: float = 895.0  # can be overridden per brand
-    doc_fee: float = 85.0
+    doc_fee: Optional[float] = None # Will default to config.CA_DOC_FEE_MAX if None
     registration_fee: float = 400.0
     other_fees: float = 0.0
 
@@ -116,6 +116,7 @@ class LeaseCalculationResult(BaseModel):
 
     tax_rate: float
     tax_amount: float
+    upfront_tax: float
     monthly_payment_with_tax: float
 
     down_payment: float

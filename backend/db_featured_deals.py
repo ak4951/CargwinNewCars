@@ -36,23 +36,27 @@ async def list_deals(
     db: AsyncIOMotorDatabase,
     brand: Optional[str] = None,
     region: Optional[str] = None,
+    search: Optional[str] = None,
     limit: int = 100,
+    skip: int = 0,
     sort_by: str = "created_at",
     sort_order: int = -1
-) -> List[Dict[str, Any]]:
+) -> Dict[str, Any]:
     """
-    List featured deals with optional filters
+    List featured deals with optional filters and pagination
     
     Args:
         db: MongoDB database instance
         brand: Filter by brand
         region: Filter by region
+        search: Text search (brand, model, trim)
         limit: Maximum number of results
+        skip: Number of results to skip
         sort_by: Field to sort by
         sort_order: -1 for descending, 1 for ascending
         
     Returns:
-        List of deal dicts
+        Dict with "deals" list and "total" count
     """
     query = {}
     
@@ -61,15 +65,28 @@ async def list_deals(
     
     if region:
         query["region"] = {"$regex": region, "$options": "i"}
+
+    if search:
+        search_regex = {"$regex": search, "$options": "i"}
+        query["$or"] = [
+            {"brand": search_regex},
+            {"model": search_regex},
+            {"trim": search_regex}
+        ]
+
+    total = await db.featured_deals.count_documents(query)
     
     deals = await db.featured_deals.find(
         query,
         {"_id": 0}
-    ).sort(sort_by, sort_order).limit(limit).to_list(limit)
+    ).sort(sort_by, sort_order).skip(skip).limit(limit).to_list(limit)
     
-    logger.info(f"Found {len(deals)} featured deals with filters: {query}")
+    logger.info(f"Found {len(deals)} featured deals (total {total}) with filters: {query}")
     
-    return deals
+    return {
+        "deals": deals,
+        "total": total
+    }
 
 
 async def get_deal(db: AsyncIOMotorDatabase, deal_id: str) -> Optional[Dict[str, Any]]:

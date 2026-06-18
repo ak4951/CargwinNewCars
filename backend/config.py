@@ -77,6 +77,11 @@ class Settings(BaseModel):
     WORKERS: int = int(os.getenv("WORKERS", "1"))
     MAX_CONNECTIONS: int = int(os.getenv("MAX_CONNECTIONS", "100"))
     
+    # Lease Calculation Constants
+    # California Law: Maximum dealer document processing charge is $85 for dealers
+    # not using a computer vendor system. This is the industry standard baseline for CA.
+    CA_DOC_FEE_MAX: float = 85.0
+
     # CDN & Assets
     CDN_URL: Optional[str] = os.getenv("CDN_URL")
     STATIC_URL: str = os.getenv("STATIC_URL", "/static")
