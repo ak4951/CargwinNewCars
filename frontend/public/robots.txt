@@ -1,4 +1,4 @@
-# https://www.hunter.lease/robots.txt
+# https://hunter.lease/robots.txt
 User-agent: *
 Allow: /
 Allow: /deals
@@ -17,24 +17,69 @@ Disallow: /dashboard
 Disallow: /auth
 
 # Allow AI crawlers
+# A bot that matches its own group ignores the * group entirely, so every group
+# below has to repeat the Disallow rules above.
 User-agent: GPTBot
 Allow: /
 Allow: /api/ai/*
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/admin/*
+Disallow: /dashboard
+Disallow: /auth
 
 User-agent: ChatGPT-User
 Allow: /
 Allow: /api/ai/*
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/admin/*
+Disallow: /dashboard
+Disallow: /auth
 
-User-agent: Claude-Web
+User-agent: OAI-SearchBot
 Allow: /
 Allow: /api/ai/*
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/admin/*
+Disallow: /dashboard
+Disallow: /auth
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /api/ai/*
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/admin/*
+Disallow: /dashboard
+Disallow: /auth
+
+User-agent: Claude-SearchBot
+Allow: /
+Allow: /api/ai/*
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/admin/*
+Disallow: /dashboard
+Disallow: /auth
 
 User-agent: PerplexityBot
 Allow: /
 Allow: /api/ai/*
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/admin/*
+Disallow: /dashboard
+Disallow: /auth
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/admin/*
+Disallow: /dashboard
+Disallow: /auth
 
 Sitemap: https://hunter.lease/sitemap.xml
 Sitemap: https://hunter.lease/sitemap-seo-pages.xml

@@ -32,6 +32,7 @@ import StickyCTABar from "./components/StickyCTABar";
 import GuaranteesBar from "./components/GuaranteesBar";
 import DealerTricksSection from "./components/DealerTricksSection";
 import WhyDealersWorkWithUs from "./components/WhyDealersWorkWithUs";
+import CanonicalLink from "./components/CanonicalLink";
 import CarDetail from "./pages/CarDetail";
 import PreviewLot from "./pages/PreviewLot";
 import Auth from "./pages/Auth";
@@ -80,7 +81,6 @@ const Home = () => {
     "name": "Hunter.Lease",
     "description": "Exclusive fleet pricing on new car leases in California. Save $3,000-7,000 vs dealer prices.",
     "url": "https://hunter.lease",
-    "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "847"},
     "priceRange": "$$",
     "serviceArea": {"@type": "State", "name": "California"}
   };
@@ -179,6 +179,7 @@ function App() {
           <I18nProvider>
             <FOMOSettingsProvider>
               <AuthProvider>
+                <CanonicalLink />
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/offers" element={<OffersPage />} />
